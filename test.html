@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { 
+	margin: 10px; 
+	background: #CCC; 
+}
+#canvas_container {
+	width: 1000px;
+	margin: 20px auto;
+}
+#my_canvas { 
+	background: #FFF; 
+	border: #000 1px solid; 
+}	
+</style>
+<script>
+var bg = new Image();
+bg.src = "background.jpg";
+function initCanvas() {
+	var ctx = document.getElementById('my_canvas').getContext('2d');
+	var cW = ctx.canvas.width, cH = ctx.canvas.height;
+	var speed = 11;
+	
+	function Background() {
+		this.x = 0, this.y = 0, this.w = 1000, this.h = 500;
+		this.render = function() {
+			ctx.drawImage(bg, this.x, this.y, this.w, this.h);
+		}
+	}
+	
+	function Player() {
+		this.x = 50, this.y = 300, this.w = 30, this.h = 50;
+		this.render = function() {
+			ctx.fillStyle = "magenta";
+			ctx.fillRect(this.x, this.y, this.w, this.h);
+		}
+	}
+	
+	var background = new Background();
+	var player = new Player();
+	
+	function animate() {
+		ctx.save();
+		ctx.clearRect(0,0,cW,cH);
+		
+		background.render();
+		player.render();
+		
+		ctx.restore();
+	}
+	var animateInterval = setInterval(animate, 30);
+	
+	document.addEventListener('keydown', function(event) {
+		var key_press = String.fromCharCode(event.keyCode);
+		//alert(event.keyCode + " " + key_press);
+		if (key_press == "%") { //left
+			player.x-=speed;
+		} else if (key_press == "&") { //up
+			player.y-=speed;
+		} else if (key_press == "'") { //right
+			player.x+=speed;
+		} else if (key_press == "(") { //down
+			player.y+=speed;
+		}
+	});
+}
+window.addEventListener('load', function(event) {
+	initCanvas();
+});
+</script>
+</head>
+<body>
+<div id="canvas_container"><canvas id="my_canvas" width="1000" height="500"></canvas>
+</body>
+</html>
