@@ -1,2 +1,0 @@
-   <a id="bgndVideo" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=R5l4MghKGEA',containment:'body',autoPlay:true, mute:false, startAt:26, opacity:1}"></a>
-   <div class="pattern"></div> 
