@@ -32,6 +32,7 @@ var sprite = {
 
 // Handle keyboard controls
 var keysDown = {};
+var facing = true;//true if facing right
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
@@ -48,35 +49,51 @@ var reset = function () {
 };
 
 //animation of sprite
-var animationStep = 0;
-
 function move() {
-	if(39 in keysDown) {//right
-		animationStep++;
-		if(animationStep = 4) {
+	if(39 in keysDown) {//right        
+		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
 			spriteImage.src = "images/Walk" + imageNum + ".gif";
-			animationStep = 0;
 		}
+		else if(jumping) {
+			spriteImage.src = "images/Jump1.gif";
+		}
+        else {
+            spriteImage.src = "images/Jump2.gif";
+        }
 	}
-	if(37 in keysDown) {//left
-		animationStep++;
-		if(animationStep = 4) {
+	if(37 in keysDown) {//left        
+		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
-			spriteImage.src = "images/WalkL" + imageNum + ".gif";
-			animationStep = 0;
+            spriteImage.src = "images/WalkL" + imageNum + ".gif";
 		}
+		else if(jumping) {
+			spriteImage.src = "images/JumpL1.gif";
+		}
+        else {
+            spriteImage.src = "images/JumpL2.gif";
+        }
 	}
 	if(38 in keysDown && 39 in keysDown) {//up right
-		spriteImage.src = "images/Jump1.gif";
+        if(jumping) {
+            spriteImage.src = "images/Jump1.gif";
+        }
+        else {
+            spriteImage.src = "images/Jump2.gif";
+        }
 	}
-	if(38 in keysDown && 37 in keysDown) {//up left
-		spriteImage.src = "images/JumpL1.gif";
-	}
-	animationStep = 0;
+	if(38 in keysDown && 37 in keysDown) {//up leff        
+        if(jumping) {
+            spriteImage.src = "images/JumpL1.gif";
+        }
+		else {
+            spriteImage.src = "images/JumpL2.gif";
+        }
+    }
+    
 };
 
-var gravity = 3.5;
+var gravity = 3;
 var jumpAvailable = false;
 var jumping = false;
 var jumpMax = 5;
@@ -90,34 +107,28 @@ var update = function (modifier) {
 	else {
 		jumpAvailable = false;
 	}
-
+	
 	if(jumping) {
 		sprite.y -= jumpVel;
 		jumpVel -= 0.1;
 		if(jumpVel <= 0) {
 			jumping = false;
-			if(!jumping) {
-				if(39 in keysDown || 38 in keysDown) {
-					spriteImage.src = "images/Jump2.gif";
-				}
-				spriteImage.src = "images/Jump2.gif";
-			}
 		}
 	}
 	else {
 		sprite.y += gravity;
 	}
-
+	
 	if (38 in keysDown) { // Player holding up
 		//sprite.y -= sprite.speed * modifier;
-
+		
 		if(jumpAvailable) {
 			jumping = true;
 			jumpVel = jumpMax;
 		}
-
+		
 		if(Timer == null) {
-			Timer = setInterval('move();', 10);
+			move();
 		}
 		else {
 			clearInterval(Timer);
@@ -154,7 +165,7 @@ var update = function (modifier) {
 			Timer = null;
 		}
 	}
-
+	
 	if(sprite.x < 0) {
 		sprite.x = 0;
 	}
@@ -168,7 +179,7 @@ var update = function (modifier) {
 		sprite.y = canvas.height - spriteH;
 	}
 };
-
+	
 window.onkeydown = move;
 
 // Draw everything
