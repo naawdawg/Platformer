@@ -1,3 +1,4 @@
 <?php include("header.php"); ?>
-
-<?php include("footer.php"); ?>
+   <script src="js/game.js"></script>
+</body>
+</html>
