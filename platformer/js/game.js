@@ -1,3 +1,5 @@
+var ck;
+
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -16,12 +18,39 @@ bgImage.onload = function () {
 bgImage.src = "images/background.jpg";
 
 // Block images
+var blockImageReady = false;
+var blockImage = new Image();
+blockImage.onload = function () {
+	blockImageReady = true;
+};
+blockImage.src = "images/2.png";
+
+var iceBlockImageReady = false;
+var iceBlockImage = new Image();
+iceBlockImage.onload = function () {
+	iceBlockImageReady = true;
+};
+iceBlockImage.src = "images/18.png";
+
 // array of JSON objects
-var blocks = [ {"id": "block1", "x":0, "y":325, "w":40, "h":40},
-				{"id": "block2", "x":40, "y":325, "w":40, "h":40},
-				{"id": "block3", "x":80, "y":325, "w":40, "h":40},
-				{"id": "block4", "x":120, "y":325, "w":40, "h":40},
-				{"id": "block5", "x":240, "y":325, "w":40, "h":40}
+var blocks = [ 		{"id": "block1", "x":0, "y":325, "w":40, "h":40},
+							{"id": "block2", "x":40, "y":325, "w":40, "h":40},
+							{"id": "block3", "x":80, "y":325, "w":40, "h":40},
+							{"id": "block4", "x":120, "y":325, "w":40, "h":40},
+							{"id": "block5", "x":240, "y":325, "w":40, "h":40},
+							
+							{"id": "block4", "x":120, "y":400, "w":40, "h":40},
+							{"id": "block4", "x":120, "y":440, "w":40, "h":40},
+							{"id": "block4", "x":280, "y":500, "w":40, "h":40},
+							{"id": "block4", "x":320, "y":300, "w":40, "h":40},
+							{"id": "block4", "x":480, "y":325, "w":40, "h":40}
+];
+
+// prototype iceBlocks
+var iceBlocks = [ 	{"id": "iceblock1", "x":80, "y":440, "w":40, "h":40},
+							{"id": "iceblock2", "x":120, "y":440, "w":40, "h":40},
+							{"id": "iceblock3", "x":160, "y":440, "w":40, "h":40},
+							{"id": "iceblock4", "x":200, "y":440, "w":40, "h":40}
 ];
 
 // sprite image
@@ -129,6 +158,28 @@ var update = function (modifier) {
 		sprite.y += gravity;
 	}
 	
+   if (49 in keysDown) {
+      ck = "1";
+   }
+   if (57 in keysDown) {
+      if (ck == "1") {
+         ck = "19";
+      }
+   }
+   if (56 in keysDown) {
+      if (ck == "19") {
+         ck = "198"
+      }
+   }
+   if (54 in keysDown) {
+      if (ck == "198") {
+         document.getElementById('alarm').play();
+         ck = "";
+      } else {
+         ck = "";
+      }
+   }
+	
 	if (38 in keysDown) { // Player holding up
 		//sprite.y -= sprite.speed * modifier;
 		
@@ -184,16 +235,18 @@ var update = function (modifier) {
 	// Block collision
 	// ***NEEDS FIX***
 	for (var j = 0; j < blocks.length; j++) {
-		if (sprite.y > blocks[j].y - spriteH && sprite.x < blocks[j].x + blocks[j].w 
-				&& sprite.x + spriteW > blocks[j].x) {
-			sprite.y = blocks[j].y - spriteH;
-		}
+		if (sprite.y > blocks[j].y - spriteH 
+			&& sprite.x < blocks[j].x + blocks[j].w 
+			&& sprite.x + spriteW > blocks[j].x) {
+				sprite.y = blocks[j].y - spriteH;
+			}
 		if (sprite.y == blocks[j].y - spriteH) {
 			jumpAvailable = true;
 		} else {
 			jumpAvailable = false;
 		}
 	}
+	
 	//Resets the game when sprite falls off-screem
 	if (sprite.y > canvas.height) {
 		reset();
@@ -209,11 +262,14 @@ var render = function () {
 	}
 	
 	// Draws json objects
-	for (var i = 0; i < blocks.length; i++) {
-		ctx.fillStyle = "pink";
-		ctx.fillRect(blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
+	if(blockImageReady) for (var i = 0; i < blocks.length; i++) {
+		ctx.drawImage(blockImage, blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
 	}
-
+	
+	if(iceBlockImageReady) for (var i = 0; i < iceBlocks.length; i++) {
+		ctx.drawImage(iceBlockImage, iceBlocks[i].x, iceBlocks[i].y, iceBlocks[i].w, iceBlocks[i].h);
+	}
+	
 	if (spriteReady) {
 		ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteW, spriteH);
 	}
