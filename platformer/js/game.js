@@ -50,7 +50,9 @@ var reset = function () {
 
 //animation of sprite
 function move() {
-	if(39 in keysDown) {//right        
+    var ground = true;
+	if(39 in keysDown) {//right    
+        facing = true;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
 			spriteImage.src = "images/Walk" + imageNum + ".gif";
@@ -62,7 +64,8 @@ function move() {
             spriteImage.src = "images/Jump2.gif";
         }
 	}
-	if(37 in keysDown) {//left        
+	else if(37 in keysDown) {//left   
+        facing = false;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
             spriteImage.src = "images/WalkL" + imageNum + ".gif";
@@ -74,23 +77,42 @@ function move() {
             spriteImage.src = "images/JumpL2.gif";
         }
 	}
-	if(38 in keysDown && 39 in keysDown) {//up right
+	else if(38 in keysDown && 39 in keysDown && facing) {//up right
         if(jumping) {
             spriteImage.src = "images/Jump1.gif";
         }
         else {
             spriteImage.src = "images/Jump2.gif";
         }
+        if(jumpAvailable) {
+            spriteImage.src = "images/Walk0.gif";
+        }
 	}
-	if(38 in keysDown && 37 in keysDown) {//up leff        
+	else if(38 in keysDown && 37 in keysDown && !facing) {//up left        
         if(jumping) {
             spriteImage.src = "images/JumpL1.gif";
         }
 		else {
             spriteImage.src = "images/JumpL2.gif";
         }
+        if(jumpAvailable) {
+            spriteImage.src = "images/WalkL0.gif";
+        }
     }
-    
+    else if(38 in keysDown) {//up
+        if(facing && jumping) {
+            spriteImage.src = "images/Jump1.gif";
+        }
+        else if(facing && !jumping) {
+            spriteImage.src = "images/Jump2.gif";
+        }
+        else if(!facing && jumping) {
+            spriteImage.src = "images/JumpL1.gif";
+        }
+        else if(!facing && !jumping) {
+            spriteImage.src = "images/JumpL2.gif";
+        }
+    }
 };
 
 var gravity = 3;
