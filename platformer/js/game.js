@@ -4,8 +4,8 @@ var ctx = canvas.getContext("2d");
 canvas.width = 600; //512
 canvas.height = 400; //480
 document.body.appendChild(canvas);
-var spriteW = 51;
-var spriteH = 57.5;
+var spriteW = 40;
+var spriteH = 40;
 
 // Background image
 var bgReady = false;
@@ -14,6 +14,15 @@ bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "images/background.jpg";
+
+// Block images
+// array of JSON objects
+var blocks = [ {"id": "block1", "x":0, "y":325, "w":40, "h":40},
+				{"id": "block2", "x":40, "y":325, "w":40, "h":40},
+				{"id": "block3", "x":80, "y":325, "w":40, "h":40},
+				{"id": "block4", "x":120, "y":325, "w":40, "h":40},
+				{"id": "block5", "x":240, "y":325, "w":40, "h":40}
+];
 
 // sprite image
 var Timer = null;
@@ -44,8 +53,8 @@ addEventListener("keyup", function (e) {
 
 // Reset the game when the player falls off-screen
 var reset = function () {
-	sprite.x = 0
-	sprite.y = 250;
+	sprite.x = 120
+	sprite.y = 100;
 };
 
 //animation of sprite
@@ -56,88 +65,67 @@ function move() {
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
 			spriteImage.src = "images/Walk" + imageNum + ".gif";
-		}
-		else if(jumping) {
+		} else if(jumping) {
 			spriteImage.src = "images/Jump1.gif";
-		}
-        else {
+		} else {
             spriteImage.src = "images/Jump2.gif";
         }
-	}
-	else if(37 in keysDown) {//left   
+	} else if(37 in keysDown) {//left   
         facing = false;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
             spriteImage.src = "images/WalkL" + imageNum + ".gif";
-		}
-		else if(jumping) {
+		} else if(jumping) {
 			spriteImage.src = "images/JumpL1.gif";
-		}
-        else {
+		} else {
             spriteImage.src = "images/JumpL2.gif";
         }
-	}
-	else if(38 in keysDown && 39 in keysDown && facing) {//up right
+	} else if(38 in keysDown && 39 in keysDown && facing) {//up right
         if(jumping) {
             spriteImage.src = "images/Jump1.gif";
-        }
-        else {
+        } else {
             spriteImage.src = "images/Jump2.gif";
         }
         if(jumpAvailable) {
             spriteImage.src = "images/Walk0.gif";
         }
-	}
-	else if(38 in keysDown && 37 in keysDown && !facing) {//up left        
+	} else if(38 in keysDown && 37 in keysDown && !facing) {//up left        
         if(jumping) {
             spriteImage.src = "images/JumpL1.gif";
-        }
-		else {
+        } else {
             spriteImage.src = "images/JumpL2.gif";
         }
         if(jumpAvailable) {
             spriteImage.src = "images/WalkL0.gif";
         }
-    }
-    else if(38 in keysDown) {//up
+    } else if(38 in keysDown) {//up
         if(facing && jumping) {
             spriteImage.src = "images/Jump1.gif";
-        }
-        else if(facing && !jumping) {
+        } else if(facing && !jumping) {
             spriteImage.src = "images/Jump2.gif";
-        }
-        else if(!facing && jumping) {
+        } else if(!facing && jumping) {
             spriteImage.src = "images/JumpL1.gif";
-        }
-        else if(!facing && !jumping) {
+        } else if(!facing && !jumping) {
             spriteImage.src = "images/JumpL2.gif";
         }
     }
 };
 
+// Update game objects
 var gravity = 3;
 var jumpAvailable = false;
 var jumping = false;
 var jumpMax = 5;
 var jumpVel = 2;
 
-// Update game objects
 var update = function (modifier) {
-	if(sprite.y == canvas.height - spriteH) {
-		jumpAvailable = true;
-	}
-	else {
-		jumpAvailable = false;
-	}
-	
 	if(jumping) {
 		sprite.y -= jumpVel;
 		jumpVel -= 0.1;
 		if(jumpVel <= 0) {
 			jumping = false;
 		}
-	}
-	else {
+	} else {
 		sprite.y += gravity;
 	}
 	
@@ -151,8 +139,7 @@ var update = function (modifier) {
 		
 		if(Timer == null) {
 			move();
-		}
-		else {
+		} else {
 			clearInterval(Timer);
 			Timer = null;
 		}
@@ -161,8 +148,7 @@ var update = function (modifier) {
 		sprite.y += sprite.speed * modifier;
 		if(Timer == null) {
 			Timer = setInterval('move();', 10);
-		}
-		else {
+		} else {
 			clearInterval(Timer);
 			Timer = null;
 		}
@@ -171,8 +157,7 @@ var update = function (modifier) {
 		sprite.x -= sprite.speed * modifier;
 		if(Timer == null) {
 			Timer = setInterval('move();', 10);
-		}
-		else {
+		} else {
 			clearInterval(Timer);
 			Timer = null;
 		}
@@ -181,24 +166,37 @@ var update = function (modifier) {
 		sprite.x += sprite.speed * modifier;
 		if(Timer == null) {
 			Timer = setInterval('move();', 10);
-		}
-		else {
+		} else {
 			clearInterval(Timer);
 			Timer = null;
 		}
 	}
 	
+	// left boundary
 	if(sprite.x < 0) {
 		sprite.x = 0;
 	}
-	if(sprite.y < 0) {
-		sprite.y = 0;
-	}
+	// right boundary
 	if(sprite.x > canvas.width - spriteW) {
 		sprite.x = canvas.width - spriteW;
 	}
-	if(sprite.y > canvas.height - spriteH) {
-		sprite.y = canvas.height - spriteH;
+	
+	// Block collision
+	// ***NEEDS FIX***
+	for (var j = 0; j < blocks.length; j++) {
+		if (sprite.y > blocks[j].y - spriteH && sprite.x < blocks[j].x + blocks[j].w 
+				&& sprite.x + spriteW > blocks[j].x) {
+			sprite.y = blocks[j].y - spriteH;
+		}
+		if (sprite.y == blocks[j].y - spriteH) {
+			jumpAvailable = true;
+		} else {
+			jumpAvailable = false;
+		}
+	}
+	//Resets the game when sprite falls off-screem
+	if (sprite.y > canvas.height) {
+		reset();
 	}
 };
 	
@@ -208,6 +206,12 @@ window.onkeydown = move;
 var render = function () {
 	if (bgReady) {
 		ctx.drawImage(bgImage, 0, 0, 600, 400);
+	}
+	
+	// Draws json objects
+	for (var i = 0; i < blocks.length; i++) {
+		ctx.fillStyle = "pink";
+		ctx.fillRect(blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
 	}
 
 	if (spriteReady) {
@@ -233,7 +237,7 @@ var main = function () {
 var w = window;
 requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
-// Let's play this game!
+// Play
 var then = Date.now();
 reset();
 main();
