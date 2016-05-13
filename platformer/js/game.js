@@ -42,10 +42,10 @@ addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
 }, false);
 
-// Reset the game when the player catches a monster
+// Reset the game when the player falls off-screen
 var reset = function () {
-	sprite.x = canvas.width / 2;
-	sprite.y = canvas.height / 2;
+	sprite.x = 0
+	sprite.y = 250;
 };
 
 //animation of sprite
