@@ -3,6 +3,20 @@ Tutorial Name: Modernize Your Site: Building a YouTube Video Background
 Author: Samuel Dalusung
 */
 
+canvas {
+   min-height: 400px;
+   min-width: 600px;
+   height: 100%;
+   width: 100%;
+}
+
+/* BOOTSTRAP CHANGES 
+================================================== */
+
+.col-xs-12 {
+   padding: 0px;
+}
+
 
 /* GENERAL STYLES
 ================================================== */
@@ -301,14 +315,17 @@ a.footer-section-btn {
 ================================================== */
 
 @media screen and (max-width: 768px) {
-.about-section-title {
-    line-height:1;
-}
+   .about-section-title {
+       line-height:1;
+   }
 }
 
 @media screen and (max-width: 480px) {
    .big-background-title {
-       font-size:58px;
+       font-size:45px;
+   }
+   #colorize {
+      font-size: 30px;
    }
 
    .small-background-title {
@@ -321,15 +338,15 @@ a.footer-section-btn {
 }
 
 @media screen and (max-width: 360px) {
-.big-background-title,#colorize {
-    line-height:1;
-}
+   .big-background-title,#colorize {
+       line-height:1;
+   }
 }
 
 @media screen and (max-width: 320px) {
-.small-background-title {
-    font-size:30px;
-}
+   .small-background-title {
+       font-size:30px;
+   }
 }
 
 
