@@ -14,7 +14,7 @@
       <div class="about-section-container">
          <h2 class="about-section-title">Check Out Our Game!</h2>
          <p>fun and exciting!</p>
-         <a href="https://github.com/pupunzi/jquery.mb.YTPlayer" target="_blank" class="about-section-btn">Check it here</a>
+         <a href="game.php" class="about-section-btn">Check it here</a>
       </div>
    </section>
 
