@@ -61,7 +61,7 @@ var spriteImage = new Image();
 spriteImage.onload = function () {
 	spriteReady = true;
 };
-spriteImage.src = "images/Walk0.gif";
+spriteImage.src = "images/Walk0.png";
 
 // Game objects
 var sprite = {
@@ -93,49 +93,49 @@ function move() {
         facing = true;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
-			spriteImage.src = "images/Walk" + imageNum + ".gif";
+			spriteImage.src = "images/Walk" + imageNum + ".png";
 		} else if(jumping) {
-			spriteImage.src = "images/Jump1.gif";
+			spriteImage.src = "images/Jump1.png";
 		} else {
-            spriteImage.src = "images/Jump2.gif";
+            spriteImage.src = "images/Jump2.png";
         }
 	} else if(37 in keysDown) {//left   
         facing = false;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
-            spriteImage.src = "images/WalkL" + imageNum + ".gif";
+            spriteImage.src = "images/WalkL" + imageNum + ".png";
 		} else if(jumping) {
-			spriteImage.src = "images/JumpL1.gif";
+			spriteImage.src = "images/JumpL1.png";
 		} else {
-            spriteImage.src = "images/JumpL2.gif";
+            spriteImage.src = "images/JumpL2.png";
         }
 	} else if(38 in keysDown && 39 in keysDown && facing) {//up right
         if(jumping) {
-            spriteImage.src = "images/Jump1.gif";
+            spriteImage.src = "images/Jump1.png";
         } else {
-            spriteImage.src = "images/Jump2.gif";
+            spriteImage.src = "images/Jump2.png";
         }
         if(jumpAvailable) {
-            spriteImage.src = "images/Walk0.gif";
+            spriteImage.src = "images/Walk0.png";
         }
 	} else if(38 in keysDown && 37 in keysDown && !facing) {//up left        
         if(jumping) {
-            spriteImage.src = "images/JumpL1.gif";
+            spriteImage.src = "images/JumpL1.png";
         } else {
-            spriteImage.src = "images/JumpL2.gif";
+            spriteImage.src = "images/JumpL2.png";
         }
         if(jumpAvailable) {
-            spriteImage.src = "images/WalkL0.gif";
+            spriteImage.src = "images/WalkL0.png";
         }
     } else if(38 in keysDown) {//up
         if(facing && jumping) {
-            spriteImage.src = "images/Jump1.gif";
+            spriteImage.src = "images/Jump1.png";
         } else if(facing && !jumping) {
-            spriteImage.src = "images/Jump2.gif";
+            spriteImage.src = "images/Jump2.png";
         } else if(!facing && jumping) {
-            spriteImage.src = "images/JumpL1.gif";
+            spriteImage.src = "images/JumpL1.png";
         } else if(!facing && !jumping) {
-            spriteImage.src = "images/JumpL2.gif";
+            spriteImage.src = "images/JumpL2.png";
         }
     }
 };
@@ -158,19 +158,24 @@ var update = function (modifier) {
 		sprite.y += gravity;
 	}
 	
+   //Easter Egg
+   //Pressing down 1
    if (49 in keysDown) {
       ck = "1";
    }
+   //Pressing down 9
    if (57 in keysDown) {
       if (ck == "1") {
          ck = "19";
       }
    }
+   //Pressing down 8
    if (56 in keysDown) {
       if (ck == "19") {
          ck = "198"
       }
    }
+   //Pressing down 6
    if (54 in keysDown) {
       if (ck == "198") {
          document.getElementById('alarm').play();
