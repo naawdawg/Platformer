@@ -247,6 +247,7 @@ var update = function (modifier) {
 			}
 		if (sprite.y == blocks[j].y - spriteH) {
 			jumpAvailable = true;
+			break;
 		} else {
 			jumpAvailable = false;
 		}
