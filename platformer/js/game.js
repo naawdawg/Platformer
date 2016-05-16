@@ -9,6 +9,10 @@ document.body.appendChild(canvas);
 var spriteW = 40;
 var spriteH = 40;
 
+//SAT Variables
+var V = SAT.Vector;
+var B = SAT.Box;
+
 // Background image
 var bgReady = false;
 var bgImage = new Image();
@@ -30,28 +34,38 @@ var iceBlockImage = new Image();
 iceBlockImage.onload = function () {
 	iceBlockImageReady = true;
 };
-iceBlockImage.src = "images/18.png";
+iceBlockImage.src = "images/IceBox.png";
 
-// array of JSON objects
+// prototype blocks - array of JSON objects
 var blocks = [ 		{"id": "block1", "x":0, "y":325, "w":40, "h":40},
 							{"id": "block2", "x":40, "y":325, "w":40, "h":40},
 							{"id": "block3", "x":80, "y":325, "w":40, "h":40},
 							{"id": "block4", "x":120, "y":325, "w":40, "h":40},
 							{"id": "block5", "x":240, "y":325, "w":40, "h":40},
+							{"id": "block6", "x":280, "y":325, "w":40, "h":40},
+							{"id": "block7", "x":320, "y":325, "w":40, "h":40},
+							{"id": "block8", "x":360, "y":325, "w":40, "h":40},
+							{"id": "block9", "x":400, "y":325, "w":40, "h":40},
 							
-							{"id": "block4", "x":120, "y":400, "w":40, "h":40},
-							{"id": "block4", "x":120, "y":440, "w":40, "h":40},
-							{"id": "block4", "x":280, "y":500, "w":40, "h":40},
-							{"id": "block4", "x":320, "y":300, "w":40, "h":40},
-							{"id": "block4", "x":480, "y":325, "w":40, "h":40}
+							{"id": "block10", "x":240, "y":225, "w":40, "h":40},
+							{"id": "block11", "x":280, "y":100, "w":40, "h":40},
+							{"id": "block12", "x":360, "y":100, "w":40, "h":40},
+							{"id": "block13", "x":400, "y":140, "w":40, "h":40},
+							{"id": "block14", "x":440, "y":140, "w":40, "h":40},
 ];
 
 // prototype iceBlocks
-var iceBlocks = [ 	{"id": "iceblock1", "x":80, "y":440, "w":40, "h":40},
-							{"id": "iceblock2", "x":120, "y":440, "w":40, "h":40},
-							{"id": "iceblock3", "x":160, "y":440, "w":40, "h":40},
-							{"id": "iceblock4", "x":200, "y":440, "w":40, "h":40}
+var iceBlocks = [ 	{"id": "iceblock1", "x":300, "y":240, "w":40, "h":40},
+							{"id": "iceblock2", "x":340, "y":200, "w":40, "h":40},
+							{"id": "iceblock3", "x":380, "y":240, "w":40, "h":40},
+							{"id": "iceblock4", "x":300, "y":280, "w":40, "h":40}
 ];
+
+// making them solid with SAT
+for (var i = 0; i < blocks.length; i++) {
+	var blockObjects = new B(new V(blocks[i].x,blocks[i].y), 40, 40).toPolygon();
+	//console.log(blockObjects[i].points);
+}
 
 // sprite image
 var Timer = null;
@@ -237,7 +251,7 @@ var update = function (modifier) {
 		sprite.x = canvas.width - spriteW;
 	}
 	
-	// Block collision
+	// Old Block collision
 	// ***NEEDS FIX***
 	for (var j = 0; j < blocks.length; j++) {
 		if (sprite.y > blocks[j].y - spriteH 
