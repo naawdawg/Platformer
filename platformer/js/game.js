@@ -1,90 +1,156 @@
-var ck;
+/**
+             Platformer
+             
+Description:
 
-// Create the canvas
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d");
+Author: Group #24
+*/
+
+
+/** 
+Gobal Variables 
+*/
+var egg; //Easter Egg Variable
+var canvas; //Used to get the elemtent type 'Canvas'
+var ctx; //Speficies Demension
+var spriteW; //Sprite Width
+var spriteH; //Sprite Height
+
+var bgReady; //Boolean, defines if background is ready
+var bgImage; //Background image
+var blockImageReady; //Boolean, defines if block/block's are ready
+var blockImage; //Block image
+var iceBlockImageReady; //Boolean, defines if iceblock's are ready
+var iceBlockImage; //iceBlock image
+var blocks; //Array, defines displayed blocks
+var iceBlocks; //Array, defines displayed iceBlocks
+
+var Timer; //Timer
+var imageNum; //Determines sprite animation
+var spriteReady; //Boolean, defines if sprite animation is ready
+var spriteImage; //Sprite image
+var sprite; //Sprite Game Object
+var keysDown; //Determines if key is down
+var facing; //Value define where the sprite is facing
+var reset; //Resets the game if player dies
+
+var gravity; //Gravity variable
+var jumpAvailable; //Boolean, If sprite is on ground
+var jumping; //In Jump
+var jumpMax; //Maximum jump Y-axis
+var jumpVelocity; //Jump Velocity
+
+var update; //Updates the game
+var render; //Renders all images 
+var main; //Main function
+var win; //window
+var last; //the variable for then
+
+/**
+
+Creates the canvas using a canvas element. Also
+Establishes variables related to the process
+
+*/
+canvas = document.createElement("canvas");
+ctx = canvas.getContext("2d");
 canvas.width = 600; //512
 canvas.height = 400; //480
 document.body.appendChild(canvas);
-var spriteW = 40;
-var spriteH = 40;
+spriteW = 40;
+spriteH = 40;
 
-//SAT Variables
-var V = SAT.Vector;
-var B = SAT.Box;
+/**
 
-// Background image
-var bgReady = false;
-var bgImage = new Image();
+Gets the image for the Background and displays it.
+
+*/
+bgReady = false;
+bgImage = new Image();
 bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "images/background.jpg";
 
-// Block images
-var blockImageReady = false;
-var blockImage = new Image();
+/**
+
+Block Images and variables
+
+*/
+blockImageReady = false;
+blockImage = new Image();
 blockImage.onload = function () {
 	blockImageReady = true;
 };
 blockImage.src = "images/2.png";
 
-var iceBlockImageReady = false;
-var iceBlockImage = new Image();
+/**
+PROTOTYPE LEVEL
+
+array of JSON objects
+
+*/
+blocks = [ 		{"id": "block1", "x":0, "y":325, "w":40, "h":40},
+                {"id": "block2", "x":40, "y":325, "w":40, "h":40},
+                {"id": "block3", "x":80, "y":325, "w":40, "h":40},
+                {"id": "block4", "x":120, "y":325, "w":40, "h":40},
+                {"id": "block5", "x":240, "y":325, "w":40, "h":40},
+
+                {"id": "block4", "x":120, "y":400, "w":40, "h":40},
+                {"id": "block4", "x":120, "y":440, "w":40, "h":40},
+                {"id": "block4", "x":280, "y":500, "w":40, "h":40},
+                {"id": "block4", "x":320, "y":300, "w":40, "h":40},
+                {"id": "block4", "x":480, "y":325, "w":40, "h":40}
+];
+
+/**
+
+IceBlock image
+
+*/
+iceBlockImageReady = false;
+iceBlockImage = new Image();
 iceBlockImage.onload = function () {
 	iceBlockImageReady = true;
 };
-iceBlockImage.src = "images/IceBox.png";
+iceBlockImage.src = "images/18.png";
 
-// prototype blocks - array of JSON objects
-var blocks = [ 		{"id": "block1", "x":0, "y":325, "w":40, "h":40},
-							{"id": "block2", "x":40, "y":325, "w":40, "h":40},
-							{"id": "block3", "x":80, "y":325, "w":40, "h":40},
-							{"id": "block4", "x":120, "y":325, "w":40, "h":40},
-							{"id": "block5", "x":240, "y":325, "w":40, "h":40},
-							{"id": "block6", "x":280, "y":325, "w":40, "h":40},
-							{"id": "block7", "x":320, "y":325, "w":40, "h":40},
-							{"id": "block8", "x":360, "y":325, "w":40, "h":40},
-							{"id": "block9", "x":400, "y":325, "w":40, "h":40},
-							
-							{"id": "block10", "x":240, "y":225, "w":40, "h":40},
-							{"id": "block11", "x":280, "y":100, "w":40, "h":40},
-							{"id": "block12", "x":360, "y":100, "w":40, "h":40},
-							{"id": "block13", "x":400, "y":140, "w":40, "h":40},
-							{"id": "block14", "x":440, "y":140, "w":40, "h":40},
+/**
+PROTOTYPE ICEBLOCKS FOR LEVEL
+
+array of iceblocks
+
+*/
+iceBlocks = [ 	{"id": "iceblock1", "x":80, "y":440, "w":40, "h":40},
+                {"id": "iceblock2", "x":120, "y":440, "w":40, "h":40},
+                {"id": "iceblock3", "x":160, "y":440, "w":40, "h":40},
+                {"id": "iceblock4", "x":200, "y":440, "w":40, "h":40}
 ];
 
-// prototype iceBlocks
-var iceBlocks = [ 	{"id": "iceblock1", "x":300, "y":240, "w":40, "h":40},
-							{"id": "iceblock2", "x":340, "y":200, "w":40, "h":40},
-							{"id": "iceblock3", "x":380, "y":240, "w":40, "h":40},
-							{"id": "iceblock4", "x":300, "y":280, "w":40, "h":40}
-];
+/**
 
-// making them solid with SAT
-for (var i = 0; i < blocks.length; i++) {
-	var blockObjects = new B(new V(blocks[i].x,blocks[i].y), 40, 40).toPolygon();
-	//console.log(blockObjects[i].points);
-}
+Sprite Animation Variables and Movement
 
-// sprite image
-var Timer = null;
-var imageNum = 0;
-var spriteReady = false;
-var spriteImage = new Image();
+*/
+Timer = null;
+imageNum = 0;
+spriteReady = false;
+spriteImage = new Image();
 spriteImage.onload = function () {
 	spriteReady = true;
 };
 spriteImage.src = "images/Walk0.png";
-
-// Game objects
-var sprite = {
+sprite = {
 	speed: 150 // movement in pixels per second
 };
 
-// Handle keyboard controls
-var keysDown = {};
-var facing = true;//true if facing right
+/**
+
+KeyBoard Handler
+
+*/
+keysDown = {};
+facing = true;//true if facing right
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
@@ -94,13 +160,21 @@ addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
 }, false);
 
-// Reset the game when the player falls off-screen
-var reset = function () {
-	sprite.x = 120
-	sprite.y = 100;
-};
+/**
 
-//animation of sprite
+Reset the game whne the player falls off-screen
+
+*/
+reset = function () {
+   sprite.x = 120;
+   sprite.y = 100;
+}
+
+/**
+
+Sprite Movement Animation function
+
+*/
 function move() {
     var ground = true;
 	if(39 in keysDown) {//right    
@@ -154,14 +228,23 @@ function move() {
     }
 };
 
-// Update game objects
-var gravity = 3;
-var jumpAvailable = false;
-var jumping = false;
-var jumpMax = 5;
-var jumpVel = 2;
+/** 
 
-var update = function (modifier) {
+Movement Variables
+
+*/
+gravity = 3;
+jumpAvailable = false;
+jumping = false;
+jumpMax = 5;
+jumpVel = 2;
+
+/**
+
+Update During Gameplay
+
+*/
+update = function (modifier) {
 	if(jumping) {
 		sprite.y -= jumpVel;
 		jumpVel -= 0.1;
@@ -175,27 +258,27 @@ var update = function (modifier) {
    //Easter Egg
    //Pressing down 1
    if (49 in keysDown) {
-      ck = "1";
+      egg = "1";
    }
    //Pressing down 9
    if (57 in keysDown) {
-      if (ck == "1") {
-         ck = "19";
+      if (egg == "1") {
+         egg = "19";
       }
    }
    //Pressing down 8
    if (56 in keysDown) {
-      if (ck == "19") {
-         ck = "198"
+      if (egg == "19") {
+         egg = "198";
       }
    }
    //Pressing down 6
    if (54 in keysDown) {
-      if (ck == "198") {
+      if (egg == "198") {
          document.getElementById('alarm').play();
-         ck = "";
+         egg = "";
       } else {
-         ck = "";
+         egg = "";
       }
    }
 	
@@ -251,7 +334,7 @@ var update = function (modifier) {
 		sprite.x = canvas.width - spriteW;
 	}
 	
-	// Old Block collision
+	// Block collision
 	// ***NEEDS FIX***
 	for (var j = 0; j < blocks.length; j++) {
 		if (sprite.y > blocks[j].y - spriteH 
@@ -261,7 +344,6 @@ var update = function (modifier) {
 			}
 		if (sprite.y == blocks[j].y - spriteH) {
 			jumpAvailable = true;
-			break;
 		} else {
 			jumpAvailable = false;
 		}
@@ -272,12 +354,15 @@ var update = function (modifier) {
 		reset();
 	}
 };
-	
 window.onkeydown = move;
 
-// Draw everything
-var render = function () {
-	if (bgReady) {
+/**
+
+Renders all images onto the screen
+
+*/
+render = function () {
+   	if (bgReady) {
 		ctx.drawImage(bgImage, 0, 0, 600, 400);
 	}
 	
@@ -293,27 +378,38 @@ var render = function () {
 	if (spriteReady) {
 		ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteW, spriteH);
 	}
-};
+}
 
-// The main game loop
-var main = function () {
-	var now = Date.now();
-	var delta = now - then;
+/**
+The Main game loop on Platformer
 
-	update(delta / 1000);
-	render();
+url: http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/
+*/
+main = function () {
+   var now = Date.now();
+   var delta = now - last;
+   
+   update(delta / 1000);
+   render();
+   last = now;
+   
+   //Requests to do this again ASAP
+   requestAnimationFrame(main);
+}
 
-	then = now;
+/**
 
-	// Request to do this again ASAP
-	requestAnimationFrame(main);
-};
+Establishes a Cross-browser support for requestAnimationFrame
 
-// Cross-browser support for requestAnimationFrame
-var w = window;
-requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
+*/
+win = window;
+requestAnimationFrame = win.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
-// Play
-var then = Date.now();
+/**
+
+When First ran... PLAY
+
+*/
+last = Date.now();
 reset();
 main();
