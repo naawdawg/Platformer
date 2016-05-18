@@ -379,30 +379,40 @@ render = function () {
 		ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteW, spriteH);
 	}
 // ------------------------------------------------------------------------------------------------------------
-	for (var i=0; i < grid.rows;i++) {
-		for (var n=0; n < grid.cols;n++) {
-			var colPos = n*grid.width;
-			var rowPos = i*grid.height;
-			ctx.strokeRect(colPos,rowPos,40,40);
+	var posX = 0; //Position x in the grid 
+	var posY = 0; //Position y in the grid
+	// 2D Grid
+	for(var rowX=0; rowX < mapArray.length; rowX++){
+		for(var colY=0; colY < mapArray[rowX].length; colY++){
+			if(mapArray[rowX][colY]==1){ //Draw iceblocks
+				ctx.drawImage(iceBlockImage, posX, posY, 40, 40);
+			}
+			if(mapArray[rowX][colY]==2){ //Draw blocks
+				ctx.drawImage(blockImage, posX, posY, 40, 40);
+			}
+			posX+=40; //Increments column position
 		}
-	}
-	
-	for (var row1=0; row1 < 4;row1++) {
-		for (var col1=0; col1 < 4;col1++) {
-			var colPos2 = col1*grid.width;
-			var rowPos2 = row1*grid.height;
-			ctx.drawImage(iceBlockImage, colPos2, rowPos2, 40, 40);
-		}
+		posY+=40; //Increments row position
+		posX=0; //Resets column for the new row
 	}
 // ------------------------------------------------------------------------------------------------------------
 }
 // ------------------------------------------------------------------------------------------------------------
-var grid = {
-	rows: 12,
-	cols: 18,
-	width:40,
-	height:40
-};
+// Map prototype
+var mapArray=[
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0],
+	[0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+ ];
 // ------------------------------------------------------------------------------------------------------------
 
 /**
