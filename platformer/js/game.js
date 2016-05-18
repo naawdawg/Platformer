@@ -113,7 +113,7 @@ iceBlockImage = new Image();
 iceBlockImage.onload = function () {
 	iceBlockImageReady = true;
 };
-iceBlockImage.src = "images/18.png";
+iceBlockImage.src = "images/IceBox.png";
 
 /**
 PROTOTYPE ICEBLOCKS FOR LEVEL
