@@ -378,7 +378,32 @@ render = function () {
 	if (spriteReady) {
 		ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteW, spriteH);
 	}
+// ------------------------------------------------------------------------------------------------------------
+	for (var i=0; i < grid.rows;i++) {
+		for (var n=0; n < grid.cols;n++) {
+			var colPos = n*grid.width;
+			var rowPos = i*grid.height;
+			ctx.strokeRect(colPos,rowPos,40,40);
+		}
+	}
+	
+	for (var row1=0; row1 < 4;row1++) {
+		for (var col1=0; col1 < 4;col1++) {
+			var colPos2 = col1*grid.width;
+			var rowPos2 = row1*grid.height;
+			ctx.drawImage(iceBlockImage, colPos2, rowPos2, 40, 40);
+		}
+	}
+// ------------------------------------------------------------------------------------------------------------
 }
+// ------------------------------------------------------------------------------------------------------------
+var grid = {
+	rows: 12,
+	cols: 18,
+	width:40,
+	height:40
+};
+// ------------------------------------------------------------------------------------------------------------
 
 /**
 The Main game loop on Platformer
