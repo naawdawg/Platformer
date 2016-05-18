@@ -4,10 +4,13 @@ Author: Samuel Dalusung
 */
 
 canvas {
+   /**
    min-height: 400px;
    min-width: 600px;
    height: 100%;
    width: 100%;
+   */
+   margin: 100px;
 }
 
 /* BOOTSTRAP CHANGES 
