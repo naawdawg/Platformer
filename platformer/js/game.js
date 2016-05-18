@@ -54,8 +54,8 @@ Establishes variables related to the process
 */
 canvas = document.createElement("canvas");
 ctx = canvas.getContext("2d");
-canvas.width = 600; //512
-canvas.height = 400; //480
+canvas.width = 720; //512
+canvas.height = 480; //480
 document.body.appendChild(canvas);
 spriteW = 40;
 spriteH = 40;
@@ -363,7 +363,7 @@ Renders all images onto the screen
 */
 render = function () {
    	if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0, 600, 400);
+		ctx.drawImage(bgImage, 0, 0, 780, 480);
 	}
 	
 	// Draws json objects
