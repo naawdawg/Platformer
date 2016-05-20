@@ -124,6 +124,14 @@ blocks = [  {"id": "block1", "x":0, "y":325, "w":40, "h":40},
             {"id": "block7", "x":400, "y":325, "w":40, "h":40},
             {"id": "block8", "x":440, "y":325, "w":40, "h":40},
             {"id": "block9", "x":480, "y":325, "w":40, "h":40},
+
+            {"id": "block5", "x":320, "y":140, "w":40, "h":40},
+            {"id": "block6", "x":360, "y":140, "w":40, "h":40},
+            {"id": "block7", "x":400, "y":140, "w":40, "h":40},
+            {"id": "block8", "x":440, "y":140, "w":40, "h":40},
+            {"id": "block9", "x":480, "y":140, "w":40, "h":40},
+
+
             {"id": "block44", "x":520, "y":325, "w":40, "h":40},
             {"id": "block425", "x":160, "y":285, "w":40, "h":40},
             {"id": "block576", "x":320, "y":285, "w":40, "h":40},
@@ -166,8 +174,10 @@ blocks2 = [  {"id": "block1", "x":0, "y":325, "w":40, "h":40},
 ];
 
 //Array of JSON objects for ice blocks
-iceBlocks = [ 	{"id": "iceblock1", "x":80, "y":440, "w":40, "h":40},
-                {"id": "iceblock2", "x":120, "y":440, "w":40, "h":40}
+iceBlocks = [ 	{"id": "iceblock1", "x":160, "y":180, "w":40, "h":40},
+                {"id": "iceblock2", "x":200, "y":140, "w":40, "h":40},
+                {"id": "iceblock1", "x":240, "y":100, "w":40, "h":40},
+                {"id": "iceblock2", "x":280, "y":100, "w":40, "h":40}
 ];
 
 //Block Polygons
@@ -195,7 +205,7 @@ spriteObject = new P(new V(startPointX, startPointY),
 	new V(spriteW, spriteH),
 	new V(0, spriteH)
 ]);
-console.log(spriteObject.pos);
+console.log(spriteObject.points);
 
 //------------------------Key Handlers----------------------------
 
@@ -303,7 +313,29 @@ function debug() {
 		else 
 			debugTimer = setTimeout(debugging = true, 250);
 	}
+	//Shift + =
+	if (16 in keysDown && 187 in keysDown) {
+		gravity += 0.01;
+	}
+	//Shift + -
+	if (16 in keysDown && 187 in keysDown) {
+		gravity -= 0.01;
+	}
 };
+
+function gravityShift() {
+	//Shift + =
+	if (187 in keysDown && debugging == true) {
+		gravity += 0.01;
+	}
+	//Shift + -
+	if (189 in keysDown  && debugging == true) {
+		gravity -= 0.01;
+	}
+};
+
+
+
 
 function blockCollision() {
 	for (var i = 0; i < blockObjects.length; i++) {
@@ -342,6 +374,7 @@ function iceBlockCollision() {
 function update(modifier) {
 	easterEgg(); //Call easter egg function
 	debug();
+	gravityShift();
 	
 	if (38 in keysDown) { // Player holding up
 		//if(jumpAvailable) {
@@ -484,7 +517,7 @@ function render() {
 	//Debug info & Demonstration
 	ctx.fillStyle = 'rgba(179, 179, 204, 0.4)';
 	if (debugging == true) {
-	    ctx.fillRect(570, 10, 135, 150);
+	    ctx.fillRect(570, 10, 135, 185);
 		if (time > 500 && time < 1000) {
 	    	ctx.save();
 	    	eggtate++;
@@ -516,6 +549,9 @@ function render() {
 	    ctx.fillText("overlapY: " + response.overlapV.y, 590, 80);
 	    ctx.fillText("overlapX: " + response.overlapV.x, 590, 100);
 	    ctx.fillText("jumping: " + jumping, 580, 120);
+	    ctx.fillText("posX: " + spriteObject.pos.x, 580, 140);
+	    ctx.fillText("posY: " + spriteObject.pos.y, 580, 160);
+	    ctx.fillText("gravity: " + gravity, 580, 180);
 	}
 }
 
