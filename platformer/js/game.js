@@ -1,141 +1,101 @@
 /**
-             Platformer
+Platformer
              
 Description:
 
 Author: Group #24
 */
+ 
+//=======================Global Variables=========================
+var canvas = document.createElement("canvas"); //Used to get the element type 'Canvas'
+var ctx = canvas.getContext("2d"); //Speficies Demension
 
+var egg = ""; //Easter Egg Variable
 
-/** 
-Gobal Variables 
-*/
-var egg; //Easter Egg Variable
-var canvas; //Used to get the elemtent type 'Canvas'
-var ctx; //Speficies Demension
-var spriteW; //Sprite Width
-var spriteH; //Sprite Height
+var keysDown = {}; //Key listener, Determines if key is down
 
-var bgReady; //Boolean, defines if background is ready
-var bgImage; //Background image
-var blockImageReady; //Boolean, defines if block/block's are ready
-var blockImage; //Block image
-var iceBlockImageReady; //Boolean, defines if iceblock's are ready
-var iceBlockImage; //iceBlock image
+//------------------------------Images------------------------------
+
+var bgReady = false; //Boolean, defines if background is ready
+var bgImage = new Image(); //Background image
+
+var blockImageReady = false; //Boolean, defines if block/block's are ready
+var blockImage = new Image(); //Block image
 var blocks; //Array, defines displayed blocks
+
+var iceBlockImageReady = false; //Boolean, defines if iceblock's are ready
+var iceBlockImage = new Image(); //iceBlock image
 var iceBlocks; //Array, defines displayed iceBlocks
 
-var Timer; //Timer
-var imageNum; //Determines sprite animation
-var spriteReady; //Boolean, defines if sprite animation is ready
-var spriteImage; //Sprite image
+var animateTimer = null; //Animation timer
+var facing = true; //Value define where the sprite is facing
+
+var imageNum = 0; //Determines sprite animation
+var spriteReady = false; //Boolean, defines if sprite animation is ready
+var spriteImage = new Image(); //Sprite image
 var sprite; //Sprite Game Object
-var keysDown; //Determines if key is down
-var facing; //Value define where the sprite is facing
-var reset; //Resets the game if player dies
+var spriteW = 40; //Sprite Width
+var spriteH = 40; //Sprite Height
 
-var gravity; //Gravity variable
-var jumpAvailable; //Boolean, If sprite is on ground
-var jumping; //In Jump
-var jumpMax; //Maximum jump Y-axis
-var jumpVelocity; //Jump Velocity
+//----------------------Movement Variables--------------------------
 
-var update; //Updates the game
-var render; //Renders all images 
-var main; //Main function
-var win; //window
-var last; //the variable for then
+var gravity = 3; //Gravity variable
+var jumpAvailable = false; //Boolean, If sprite is on ground
+var jumping = false; //In Jump
+var jumpMax = 5; //Maximum jump Y-axis
+var jumpVelocityocity = 2; //Jump Velocity
 
-/**
+//===============================================================
 
-Creates the canvas using a canvas element. Also
-Establishes variables related to the process
 
-*/
-canvas = document.createElement("canvas");
-ctx = canvas.getContext("2d");
-canvas.width = 720; //512
-canvas.height = 480; //480
+//------------------------Canvas----------------------------
+canvas.width = 720;
+canvas.height = 480;
 document.body.appendChild(canvas);
-spriteW = 40;
-spriteH = 40;
 
-/**
+//------------------------Timer----------------------------
+var time = 0;
+setInterval(function(){ 
+		time+=1 
+}, 100);
 
-Gets the image for the Background and displays it.
+//------------------------Images----------------------------
 
-*/
-bgReady = false;
-bgImage = new Image();
+//Displays background when image is ready
 bgImage.onload = function () {
 	bgReady = true;
 };
 bgImage.src = "images/background.jpg";
 
-/**
-
-Block Images and variables
-
-*/
-blockImageReady = false;
-blockImage = new Image();
+//Displays blocks when image is ready
 blockImage.onload = function () {
 	blockImageReady = true;
 };
 blockImage.src = "images/2.png";
 
-/**
-PROTOTYPE LEVEL
-
-array of JSON objects
-
-*/
+//Array of JSON objects for blocks
 blocks = [ 		{"id": "block1", "x":0, "y":325, "w":40, "h":40},
                 {"id": "block2", "x":40, "y":325, "w":40, "h":40},
                 {"id": "block3", "x":80, "y":325, "w":40, "h":40},
                 {"id": "block4", "x":120, "y":325, "w":40, "h":40},
-                {"id": "block5", "x":240, "y":325, "w":40, "h":40},
-
-                {"id": "block4", "x":120, "y":400, "w":40, "h":40},
-                {"id": "block4", "x":120, "y":440, "w":40, "h":40},
-                {"id": "block4", "x":280, "y":500, "w":40, "h":40},
-                {"id": "block4", "x":320, "y":300, "w":40, "h":40},
-                {"id": "block4", "x":480, "y":325, "w":40, "h":40}
+				{"id": "block4", "x":160, "y":325, "w":40, "h":40},
+				{"id": "block4", "x":200, "y":325, "w":40, "h":40},
+                {"id": "block5", "x":240, "y":325, "w":40, "h":40}
 ];
 
-/**
-
-IceBlock image
-
-*/
-iceBlockImageReady = false;
-iceBlockImage = new Image();
+//Displays ice blocks when image is ready
 iceBlockImage.onload = function () {
 	iceBlockImageReady = true;
 };
 iceBlockImage.src = "images/IceBox.png";
 
-/**
-PROTOTYPE ICEBLOCKS FOR LEVEL
-
-array of iceblocks
-
-*/
+//Array of JSON objects for ice blocks
 iceBlocks = [ 	{"id": "iceblock1", "x":80, "y":440, "w":40, "h":40},
-                {"id": "iceblock2", "x":120, "y":440, "w":40, "h":40},
-                {"id": "iceblock3", "x":160, "y":440, "w":40, "h":40},
-                {"id": "iceblock4", "x":200, "y":440, "w":40, "h":40}
+                {"id": "iceblock2", "x":120, "y":440, "w":40, "h":40}
 ];
 
-/**
 
-Sprite Animation Variables and Movement
-
-*/
-Timer = null;
-imageNum = 0;
-spriteReady = false;
-spriteImage = new Image();
+//Sprite Animation Variables and Movement
 spriteImage.onload = function () {
 	spriteReady = true;
 };
@@ -144,13 +104,7 @@ sprite = {
 	speed: 150 // movement in pixels per second
 };
 
-/**
-
-KeyBoard Handler
-
-*/
-keysDown = {};
-facing = true;//true if facing right
+//------------------------Key Handlers----------------------------
 
 addEventListener("keydown", function (e) {
 	keysDown[e.keyCode] = true;
@@ -160,24 +114,19 @@ addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
 }, false);
 
-/**
+//----------------------------Functions--------------------------------
 
-Reset the game whne the player falls off-screen
-
-*/
-reset = function () {
-   sprite.x = 120;
-   sprite.y = 100;
+//Reset the game when the player falls off-screen
+function reset() {
+   sprite.x = 210;
+   sprite.y = 200;
 }
 
-/**
-
-Sprite Movement Animation function
-
-*/
+//Sprite Movement Animation function
 function move() {
     var ground = true;
 	if(39 in keysDown) {//right    
+		gameBoolean = false;
         facing = true;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
@@ -228,100 +177,84 @@ function move() {
     }
 };
 
-/** 
+function easterEgg() {
+	//Pressing down 1
+	if (49 in keysDown) {
+		egg = "1";
+	}
+	//Pressing down 9
+	if (57 in keysDown) {
+		if (egg == "1") {
+			egg = "19";
+		}
+	}
+	//Pressing down 8
+	if (56 in keysDown) {
+		if (egg == "19") {
+			egg = "198";
+		}
+	}
+	//Pressing down 6
+	if (54 in keysDown) {
+		if (egg == "198") {
+			document.getElementById('alarm').play();
+			egg = "0";
+		}
+	}
+};
 
-Movement Variables
-
-*/
-gravity = 3;
-jumpAvailable = false;
-jumping = false;
-jumpMax = 5;
-jumpVel = 2;
-
-/**
-
-Update During Gameplay
-
-*/
-update = function (modifier) {
-	if(jumping) {
-		sprite.y -= jumpVel;
-		jumpVel -= 0.1;
-		if(jumpVel <= 0) {
+//Update function
+function update(modifier) {
+	easterEgg(); //Call easter egg function
+	
+	if (38 in keysDown) { // Player holding up
+		if(jumpAvailable) {
+			jumping = true;
+			jumpVelocity = jumpMax;
+		}
+		
+		if(animateTimer == null) {
+			move();
+		} else {
+			clearInterval(animateTimer);
+			animateTimer = null;
+		}
+	}
+	
+	if(jumping) { //if 38 is pressed when jump is available 
+		sprite.y -= jumpVelocity; 
+		jumpVelocity -= 0.1; //Jump physics
+		if(jumpVelocity <= 0) {
 			jumping = false;
 		}
-	} else {
+	} else { // Apply gravity
 		sprite.y += gravity;
 	}
 	
-   //Easter Egg
-   //Pressing down 1
-   if (49 in keysDown) {
-      egg = "1";
-   }
-   //Pressing down 9
-   if (57 in keysDown) {
-      if (egg == "1") {
-         egg = "19";
-      }
-   }
-   //Pressing down 8
-   if (56 in keysDown) {
-      if (egg == "19") {
-         egg = "198";
-      }
-   }
-   //Pressing down 6
-   if (54 in keysDown) {
-      if (egg == "198") {
-         document.getElementById('alarm').play();
-         egg = "";
-      } else {
-         egg = "";
-      }
-   }
-	
-	if (38 in keysDown) { // Player holding up
-		//sprite.y -= sprite.speed * modifier;
-		
-		if(jumpAvailable) {
-			jumping = true;
-			jumpVel = jumpMax;
-		}
-		
-		if(Timer == null) {
-			move();
-		} else {
-			clearInterval(Timer);
-			Timer = null;
-		}
-	}
 	if (40 in keysDown) { // Player holding down
-		sprite.y += sprite.speed * modifier;
-		if(Timer == null) {
-			Timer = setInterval('move();', 10);
+		if(animateTimer == null) {
+			animateTimer = setInterval('move();', 10);
 		} else {
-			clearInterval(Timer);
-			Timer = null;
+			clearInterval(animateTimer);
+			animateTimer = null;
 		}
 	}
 	if (37 in keysDown) { // Player holding left
 		sprite.x -= sprite.speed * modifier;
-		if(Timer == null) {
-			Timer = setInterval('move();', 10);
+		if(animateTimer == null) {
+			animateTimer = setInterval('move();', 10);
 		} else {
-			clearInterval(Timer);
-			Timer = null;
+			clearInterval(animateTimer);
+			animateTimer = null;
 		}
 	}
 	if (39 in keysDown) { // Player holding right
 		sprite.x += sprite.speed * modifier;
-		if(Timer == null) {
-			Timer = setInterval('move();', 10);
+		if(animateTimer == null) {
+			animateTimer = setInterval('move();', 10);
 		} else {
-			clearInterval(Timer);
-			Timer = null;
+			clearInterval(animateTimer);
+			animateTimer = null;
 		}
 	}
 	
@@ -335,7 +268,6 @@ update = function (modifier) {
 	}
 	
 	// Block collision
-	// ***NEEDS FIX***
 	for (var j = 0; j < blocks.length; j++) {
 		if (sprite.y > blocks[j].y - spriteH 
 			&& sprite.x < blocks[j].x + blocks[j].w 
@@ -344,6 +276,7 @@ update = function (modifier) {
 			}
 		if (sprite.y == blocks[j].y - spriteH) {
 			jumpAvailable = true;
+			break;
 		} else {
 			jumpAvailable = false;
 		}
@@ -356,12 +289,8 @@ update = function (modifier) {
 };
 window.onkeydown = move;
 
-/**
-
-Renders all images onto the screen
-
-*/
-render = function () {
+//Renders all images onto screen
+function render() {
    	if (bgReady) {
 		ctx.drawImage(bgImage, 0, 0, 780, 480);
 	}
@@ -378,7 +307,13 @@ render = function () {
 	if (spriteReady) {
 		ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteW, spriteH);
 	}
-// ------------------------------------------------------------------------------------------------------------
+	
+	//Renders timer
+	ctx.font="40px Lato";
+	ctx.fillStyle="green";
+	ctx.fillText(time,40,70);
+	
+// -------------------------------GRID------------------------------------------
 	var posX = 0; //Position x in the grid 
 	var posY = 0; //Position y in the grid
 	// 2D Grid
@@ -395,9 +330,9 @@ render = function () {
 		posY+=40; //Increments row position
 		posX=0; //Resets column for the new row
 	}
-// ------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
 }
-// ------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------
 // Map prototype
 var mapArray=[
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -413,38 +348,35 @@ var mapArray=[
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
  ];
-// ------------------------------------------------------------------------------------------------------------
-
-/**
-The Main game loop on Platformer
-
-url: http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/
-*/
-main = function () {
-   var now = Date.now();
-   var delta = now - last;
-   
+// ----------------------------PLAY------------------------------------------------------------------------
+function play() {
+	var now = Date.now();
+	var delta = now - last;
    update(delta / 1000);
    render();
    last = now;
-   
-   //Requests to do this again ASAP
-   requestAnimationFrame(main);
 }
+// -------------------------------------------------------------------------------------------
+var gameBoolean = true;// Set to change when right click is pressed!
 
-/**
+function main() {
+	if (gameBoolean) {
+		play();
+	} else {
+		//leaderboard or anything
+		ctx.drawImage(bgImage, 0, 0, 780, 480);
+	}
+	
+	//Requests to do this again ASAP
+    requestAnimationFrame(main);
+}
+// -------------------------------------------------------------------------------------------
 
-Establishes a Cross-browser support for requestAnimationFrame
+//Establishes a Cross-browser support for requestAnimationFrame
+requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame 
+						|| window.msRequestAnimationFrame || window.mozRequestAnimationFrame;
 
-*/
-win = window;
-requestAnimationFrame = win.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
-
-/**
-
-When First ran... PLAY
-
-*/
-last = Date.now();
+//Play game
+var last = Date.now();
 reset();
 main();
