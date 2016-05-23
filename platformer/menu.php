@@ -16,8 +16,8 @@
 
 
 <div id="Game">
-<canvas id="canvas"></canvas>
-<script src = "js/game4.js"></script>
+<canvas id="canvas" class="center"></canvas>
+<script src = "js/testing.js"></script>
 <div class="col-xs-12 center"><button class="show_b">Back</button></div>
 </div>
    
