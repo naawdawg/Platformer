@@ -1,7 +1,7 @@
 <?php include("header.php"); ?>
 <div style="background-color: black">
    
-<div style="margin-bottom: 100px"></div>
+<div style="margin-bottom: 75px"></div>
 <div class="col-xs-12" id="Main" >
 
 <div class="center" id="logo" ><img  src="images/platformer.png"/></div>
@@ -15,9 +15,18 @@
 </div>
 
 
-<div id="Game">
-<canvas id="canvas" class="center"></canvas>
-<script src = "js/testing.js"></script>
+<div id="Game" class="center">
+<canvas id="canvas"></canvas>
+<script src = "js/game.js"></script>
+   <div class="col-xs-12">
+      <div class="col-xs-6" >
+         <button id="Right" style="text-align: right">RIGHT</button>
+         <button id="Left" style="text-align: right">LEFT</button>
+      </div>
+      <div class="col-xs-6">
+         <button id="Up" style="text-align: left">SPACE</button>
+      </div>
+   </div>
 <div class="col-xs-12 center"><button class="show_b">Back</button></div>
 </div>
    
@@ -26,13 +35,43 @@ Instructions
 <div class="col-xs-12 center"><button class="show_b">Back</button></div>
 </div>
    
-<div id="Settings">
+<div id="Settings" class="center">
 Settings
 <div class="col-xs-12 center"><button class="show_b">Back</button></div>
 </div>
    
 <div id="Leader">
-Leaderboards
+
+<?php
+//$servername = "localhost";
+//$username = "pushpull88com_AD";
+//$password = "Dalton0";
+//$dbname = "pushpull88com_AD";
+
+//create connection
+//$conn = new mysqli($servername, $username, $password, $dbname);
+
+//check connection
+//if ($conn->connect_error) {
+//   die("Connection failed! " . $conn->connect_error);
+//} else {
+//   echo "Connected Successfully"."<br/>";
+//}
+
+//$sql = "SELECT * FROM highscore`";
+//$result = $conn->query($sql);
+
+//if ($result->num_rows > 0) {
+//   while($row = $result->fetch_assoc()) {
+//        echo "Name: " . $row["Name"]. " - Time: " .$row["Time"] ."<br/>";
+//   }
+//} else {
+//   echo "0 Results";
+//}
+
+//$conn->close();
+?>
+   
 <div class="col-xs-12 center"><button class="show_b">Back</button></div>
 </div>
 
@@ -68,6 +107,49 @@ $(document).ready(function(){
       $("#Settings").hide();
       $("#Leader").hide();
    });
+   
+   //DON"T WORK
+   $("#Right").click(
+      function(){
+         sprite.x += sprite.speed * modifier;
+         if(animateTimer == null) {
+            animateTimer = setInterval('move();', 10);
+         } else {
+            clearInterval(animateTimer);
+            animateTimer = null;
+         }
+      }
+   );
+   //DON"T WORK
+   $("#Left").click(
+      function(){
+         sprite.x -= sprite.speed * modifier;
+         if(animateTimer == null) {
+            animateTimer = setInterval('move();', 10);
+         } else {
+            clearInterval(animateTimer);
+            animateTimer = null;
+         }
+      }
+   );
+   $("#Up").click(
+      function(){
+         if(jumpAvailable) {
+            jumping = true;
+            jumpVelocity = jumpMax;
+         }
+
+         if(animateTimer == null) {
+            move();
+         } else {
+            clearInterval(animateTimer);
+            animateTimer = null;
+         }
+      }
+   );
+   
+   
+   
 
 });
 </script>
