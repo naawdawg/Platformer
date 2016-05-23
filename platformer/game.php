@@ -1,7 +1,10 @@
 <?php include("header.php"); ?>
    <audio id="alarm">
-         <source src="noot.mp3">
+         <source src="./sounds/noot.mp3">
    </audio>
-   <script src="js/game.js"></script>
+   <script src = "js/globals.js"></script>
+   <script src = "js/game.js"></script>
+   <h2 id="status">0 | 0</h2>
 </body>
 </html>
+
