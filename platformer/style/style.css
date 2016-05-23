@@ -3,14 +3,12 @@ Tutorial Name: Modernize Your Site: Building a YouTube Video Background
 Author: Samuel Dalusung
 */
 
+.center {
+   text-align: center;
+}
+
 canvas {
-   /**
-   min-height: 400px;
-   min-width: 600px;
-   height: 100%;
-   width: 100%;
-   */
-   margin: 100px;
+   margin:100px;
 }
 
 /* BOOTSTRAP CHANGES 
@@ -81,6 +79,81 @@ ul li {
     font-family:'Lato',sans-serif;
     font-size:40px;
 }
+
+/* HOME STYLES
+================================================== */
+
+.home_header {
+   margin: 0;3
+}
+.home_subheader {
+   margin: 0;
+   margin-top: 20px;
+}
+.home_logo {
+   height: 100%;
+   width: 100%;
+   opacity: 0.4;
+}
+
+
+/* ABOUT STYLES
+=================================================== */
+.about_header {
+   margin: 0;
+   margin-bottom: 40px;
+}
+
+.about_logo {
+   height: 100%;
+   width: 100%;
+   opacity: 0.4;
+   margin-bottom: 20px;
+}
+
+#dalton_img {
+   height: 80%;
+   width: 80%;
+   max-width: 500px;
+   opacity: 0.4;
+   margin: 30px 0px;
+}
+#renz_img {
+   height: 80%;
+   width: 80%;
+   max-width: 500px;
+   opacity: 0.4;
+   margin: 30px 0px;
+}
+#vinz_img {
+   height: 80%;
+   width: 80%;
+   max-width: 500px;
+   opacity: 0.4;
+   margin: 30px 0px;
+}
+#niko_img {
+   height: 80%;
+   width: 80%;
+   max-width: 500px;
+   opacity: 0.4;
+   margin: 30px 0px;
+}
+#kevin_img {
+   height: 80%;
+   width: 80%;
+   max-width: 500px;
+   opacity: 0.4;
+   margin: 30px 0px;
+}
+.name_header {
+   margin: 0; 
+   margin-bottom: 0px;
+}
+.about_p {
+   color: white;
+}
+
 
 
 

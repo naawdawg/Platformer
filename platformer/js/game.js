@@ -5,45 +5,60 @@ Description:
 
 Author: Group #24
 */
-var mapArray=[];
-
-var menuBol = false;
-var gameBol = true;
-var leaderBol = false;
-var settingBol = false;
-var pauseBol = false;
 
 //=======================Global Variables=========================
+
+var mapArray = [];
+var menuBool = false;
+var gameBool = true;
+var leaderBool = false;
+var settingBool = false;
+var pauseBool = false;
+
 var canvas = document.createElement("canvas"); //Used to get the element type 'Canvas'
-var ctx = canvas.getContext("2d"); //Speficies Demension
-
+var ctx = canvas.getContext("2d"); //Specifies Demension
 var egg = ""; //Easter Egg Variable
-
 var keysDown = {}; //Key listener, Determines if key is down
+var gameTime = 0;
 
 //------------------------------Images------------------------------
 
-var bgReady = false; //Boolean, defines if background is ready
+
 var bgImage = new Image(); //Background image
 
-var menuReady = false; //Boolean, defines if background is ready
+var snow1 = new Image(); //Snow Surface Edge
+var snow2 = new Image(); //Snow Surface Center
+var snow3 = new Image(); //Snow Surface Right Edge
+var dirt4 = new Image(); //Dirt Left Side
+var dirt5 = new Image(); //Dirt Center
+var dirt6 = new Image(); //Dirt Right Side
+var ds7 = new Image(); //Dirt/Snow Left Side
+var corner8 = new Image(); //Dirt Left Corner
+var bottom9 = new Image(); //Dirt Bottom Side
+var corner10 = new Image(); //Dirt Right Corner
+var ds11 = new Image(); //Dirt/Snow Right Side
+var edge12 = new Image(); //Left Edge
+var edge13 = new Image(); //Right Edge
+var float14 = new Image(); //Floating Block Left Side
+var float15 = new Image(); //Floating Block Center 
+var float16 = new Image(); //Floating Block Right Side
+var water17 = new Image(); //Water Surface
+var water18 = new Image(); //Water Block
+var frozen = new Image(); //Frozen Finish Sign
+var finish = new Image(); //Finish Sign
+
 var menuImage = new Image(); //Background image
 
-var blockImageReady = false; //Boolean, defines if block/block's are ready
-var blockImage = new Image(); //Block image
-var blocks; //Array, defines displayed blocks
 var blockW = 40;
 var blockH = 40;
 
-var iceBlockImageReady = false; //Boolean, defines if iceblock's are ready
 var iceBlockImage = new Image(); //iceBlock image
-var iceBlocks; //Array, defines displayed iceBlocks
 
 var animateTimer = null; //Animation timer
 var facing = true; //Value define where the sprite is facing
 
 var imageNum = 0; //Determines sprite animation
-var spriteReady = false; //Boolean, defines if sprite animation is ready
+
 var spriteImage = new Image(); //Sprite image
 var sprite; //Sprite Game Object
 var spriteW = 35; //Sprite Width
@@ -57,16 +72,14 @@ var jumping = false; //In Jump
 var jumpMax = 4; //Maximum jump Y-axis
 var jumpVelocity = 0; //Jump Velocity
 
-//===============================================================
 var instructImage = new Image();
 var settingsImage = new Image();
 var creditsImage = new Image();
-var shipImage = new Image();
 
-var buttonX =		[337,258,304,268];
-var buttonY =		[180,240,300,360];
-var buttonWidth =	[106,264,172,244];
-var buttonHeight =	[40 ,43 ,43 ,43];
+var buttonX =		[337, 258, 304, 268];
+var buttonY =		[180, 240, 300, 360];
+var buttonWidth =	[106, 264, 172, 244];
+var buttonHeight =	[40, 43, 43, 43];
 
 var logoImage = new Image();
 logoImage.onload = function(){}
@@ -76,51 +89,81 @@ var playImage = new Image();
 playImage.onload = function(){}
 playImage.src = "images/play.png";
 
+//===============================================================
+
 //------------------------Canvas----------------------------
 canvas.width = 720;
 canvas.height = 480;
 document.body.appendChild(canvas);
 
 //------------------------Timer----------------------------
-var gameTime = 0;
-setInterval(function(){
-	if (gameBol == true) {
-		gameTime+=1 
+setInterval(function() {
+	if (gameBool == true) {
+		gameTime += 1 
 	}
 }, 100);
 
 //------------------------Images----------------------------
 
-//Displays background when image is ready
-bgImage.onload = function () {
-	bgReady = true;
-};
+iceBlockImage.src = "images/IceBox.png";
+snow1.src = 'images/1.png';
+snow2.src = 'images/2.png';
+snow3.src = 'images/3.png';
+dirt4.src = 'images/4.png';
+dirt5.src = 'images/5.png';
+dirt6.src = 'images/6.png';
+ds7.src = 'images/7.png';
+corner8.src = 'images/8.png';
+bottom9.src = 'images/9.png';
+corner10.src = 'images/10.png';
+ds11.src = 'images/11.png';
+edge12.src = 'images/12.png';
+edge13.src = 'images/13.png';
+float14.src = 'images/14.png';
+float15.src = 'images/15.png';
+float16.src = 'images/16.png';
+water17.src = 'images/17.png';
+water18.src = 'images/18.png';
+frozen.src = 'images/Crystal.png';
+finish.src = 'images/Sign.png';
+	
 bgImage.src = "images/background.jpg";
-
-menuImage.onload = function () {
-	menuReady = true;
-};
 menuImage.src = "images/menu.jpg";
 
-//Displays blocks when image is ready
-blockImage.onload = function () {
-	blockImageReady = true;
-};
-blockImage.src = "images/2.png";
+//Displays background when image is ready
+bgImage.onload = function () {}
+
+menuImage.onload = function () {}
+
+snow1.onload = function (){}
+snow2.onload = function (){}
+snow3.onload = function (){}
+dirt4.onload = function (){}
+dirt5.onload = function (){}
+dirt6.onload = function (){}
+ds7.onload = function (){}
+corner8.onload = function (){}
+bottom9.onload = function (){}
+corner10.onload = function (){}
+ds11.onload = function (){}
+edge12.onload = function (){}
+edge13.onload = function (){}
+float14.onload = function (){}
+float15.onload = function (){}
+float16.onload = function (){}
+water17.onload = function (){}
+water18.onload = function (){}
+frozen.onload = function () {}
+finish.onload = function () {}
 
 //Displays ice blocks when image is ready
-iceBlockImage.onload = function () {
-	iceBlockImageReady = true;
-};
-iceBlockImage.src = "images/IceBox.png";
+iceBlockImage.onload = function () {}
 
 //Sprite Animation Variables and Movement
-spriteImage.onload = function () {
-	spriteReady = true;
-};
+spriteImage.onload = function () {}
 spriteImage.src = "images/Walk0.png";
 sprite = {
-	speed: 100 // movement in pixels per second
+	speed: 150 // movement in pixels per second
 };
 
 //------------------------Key Handlers----------------------------
@@ -137,23 +180,23 @@ addEventListener("keyup", function (e) {
 
 //Reset the game when the player falls off-screen
 function reset() {
-   sprite.x = 100;
+   sprite.x = 0;
    sprite.y = 250;
    gameTime = 0;
-   mapArray=[
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-	[0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0],
-	[0,0,0,0,0,0,0,1,0,0,0,2,0,1,0,0,0,0],
-	[0,0,0,0,0,2,0,1,0,1,0,0,0,1,0,0,0,0],
-	[0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
-	[2,2,2,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2],
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-];
+   mapArray = [
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,15,16,16,17,0,0,15,16,16,17,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		[0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0],
+		[0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,20,0],
+		[3,3,3,3,3,4,0,0,0,0,0,0,2,3,3,3,3,3],
+		[6,6,6,6,6,7,0,0,0,0,0,0,5,6,6,6,6,6],
+		[6,6,6,6,6,7,0,0,0,0,0,0,5,6,6,6,6,6],
+		[10,10,10,10,10,14,0,0,0,0,0,0,13,10,10,10,10,10],
+		];
 }
 
 //Sprite Movement Animation function
@@ -209,6 +252,74 @@ function move() {
         }
     }
 };
+
+function checkCollision() {
+	var posX = 0; //Position x in the grid 
+	var posY = 0; //Position y in the grid
+	// 2D Grid
+	for(var rowX = 0; rowX < mapArray.length; rowX++){
+		for(var colY = 0; colY < mapArray[rowX].length; colY++) {
+			if(mapArray[rowX][colY] == 1) {
+				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 && sprite.x < posX + blockW - 5) { //up side block
+					sprite.y = posY - spriteH;
+					var curRow = rowX;
+					var curCol = colY;
+					setTimeout(function() { mapArray[curRow][curCol] = 0; }, 500);
+				}
+				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) { //left side block
+					sprite.x = posX - spriteW;
+				}
+				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) {
+					sprite.x = posX + blockW;
+				}
+				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3) {
+					sprite.y = posY + spriteH + 3;
+				}
+				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3 
+					&& sprite.y == posY - spriteH) {
+					break;
+				} else {
+					jumpAvailable = false;
+				}
+			}
+			for (var i = 2; i < 18; i++) {
+				if(mapArray[rowX][colY] == i) {
+					if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 && sprite.x < posX + blockW - 5) { //up side block
+						sprite.y = posY - spriteH;
+					}
+					if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) { //left side block
+						sprite.x = posX - spriteW;
+					}
+					if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) {
+						sprite.x = posX + blockW;
+					}
+					if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3) {
+						sprite.y = posY + spriteH + 3;
+					}
+					if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3 
+						&& sprite.y == posY - spriteH) {
+						break;
+					} else {
+						jumpAvailable = false;
+					}
+				}
+			}
+			posX += 40; //Increments column position
+		}
+		if (sprite.y == posY - spriteH) {
+			jumpAvailable = true;
+			break;
+		} else {
+			jumpAvailable = false;
+		}
+		posY += 40; //Increments row position
+		posX = 0; //Resets column for the new row
+	}
+}
+
+function iceDestruction(iceBlock) {
+
+}
 
 function easterEgg() {
 	//Pressing down 1
@@ -272,6 +383,7 @@ function update(modifier) {
 			animateTimer = null;
 		}
 	}
+
 	if (37 in keysDown) { // Player holding left
 		sprite.x -= sprite.speed * modifier;
 		if(animateTimer == null) {
@@ -281,6 +393,7 @@ function update(modifier) {
 			animateTimer = null;
 		}
 	}
+
 	if (39 in keysDown) { // Player holding right
 		sprite.x += sprite.speed * modifier;
 		if(animateTimer == null) {
@@ -300,97 +413,8 @@ function update(modifier) {
 		sprite.x = canvas.width - spriteW;
 	}
 	
-	// Block collision
-	/**
-	for (var j = 0; j < blocks.length; j++) {
-		if (sprite.y > blocks[j].y - spriteH 
-			&& sprite.x < blocks[j].x + blocks[j].w 
-			&& sprite.x + spriteW > blocks[j].x) {
-				sprite.y = blocks[j].y - spriteH;
-			}
-		if (sprite.y == blocks[j].y - spriteH) {
-			jumpAvailable = true;
-			break;
-		} else {
-			jumpAvailable = false;
-		}
-	} 
-	*/
-	
-	// ========================FIXED - MAKE THIS A FUNCTION - COLLISION/JUMPER===========================================
-	var jumpReady = false; //true if on a block, needs to reinitialize to false every time, DONT MOVE!.
-	var posX = 0; //Position x in the grid 
-	var posY = 0; //Position y in the grid
-	// Scan 2D Grid
-	for(var rowX = 0; rowX < mapArray.length; rowX++){
-		for(var colY = 0; colY < mapArray[rowX].length; colY++){
-			if(mapArray[rowX][colY] == 1){
-				// The +3/-3 is to take account of movement
-				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //left side block boundary
-					sprite.x = posX - spriteW;
-				}
-				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //right side block boundary
-					sprite.x = posX + blockW;
-				}
-				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 
-						&& sprite.x < posX + blockW - 3) { //down side block boundary
-					sprite.y = posY + spriteH + 3;
-				}
-				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 
-						&& sprite.x < posX + blockW - 5) { //up side block boundary 
-					//---------Ice Block Collision - Make a function for setTimeout---------
-					var curRow = rowX;
-					var curCol = colY;
-					setTimeout(function() { mapArray[curRow][curCol] = 0; }, 500);
-					//-----------------------------------------------------------------------
-					sprite.y = posY - spriteH;
-					jumpReady = true;
-					break;
-				} else {
-					jumpReady = false;
-				}
-			}
-			if(mapArray[rowX][colY] == 2){
-				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //left side block boundary
-					sprite.x = posX - spriteW;
-				}
-				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //right side block boundary
-					sprite.x = posX + blockW;
-				}
-				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 
-						&& sprite.x < posX + blockW - 3) { //down side block boundary
-					sprite.y = posY + spriteH + 3;
-				}
-				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 
-						&& sprite.x < posX + blockW - 5) { //up side block boundary 
-					sprite.y = posY - spriteH;
-					jumpReady = true;
-					break;
-				} else {
-					jumpReady = false;
-				}
-			}
-			posX+=40; //Increments column position
-		}
-		posY+=40; //Increments row position
-		posX=0; //Resets column for the new row	
-		if(jumpReady) {
-			break;
-		} else {
-			jumpReady = false;
-		}
-	}
-	if (jumpReady) {
-		jumpAvailable = true;
-	} else {
-		jumpAvailable = false;
-	}
-	// ========================================================================================================
-	
+	checkCollision();
+
 	//Resets the game when sprite falls off-screem
 	if (sprite.y > canvas.height) {
 		reset();
@@ -400,42 +424,92 @@ window.onkeydown = move;
 
 //Renders all images onto screen
 function render() {
-   	if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0, 780, 480);
-	}
-	
-	
-	if (spriteReady) {
-		ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteW, spriteH);
-	}
-	
-	ctx.font="40px Lato";
-	ctx.fillStyle="green";
+  
+	ctx.drawImage(bgImage, 0, 0, 780, 480);
+	ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteW, spriteH);
+		
+	ctx.font = "40px Lato";
+	ctx.fillStyle = "green";
 	
 	//Renders timer
-	ctx.font="40px Lato";
-	ctx.fillStyle="green";
+	ctx.font = "40px Lato";
+	ctx.fillStyle = "green";
 	ctx.fillText(gameTime,40,70);
 	
-// -------------------------------GRID------------------------------------------
+	// -------------------------------GRID------------------------------------------
 	var posX = 0; //Position x in the grid 
 	var posY = 0; //Position y in the grid
 	// 2D Grid
-	for(var rowX=0; rowX < mapArray.length; rowX++){
-		for(var colY=0; colY < mapArray[rowX].length; colY++){
-			if(mapArray[rowX][colY]==1){ //Draw iceblocks
-				ctx.drawImage(iceBlockImage, posX, posY, 40, 40);
+	for(var rowX = 0; rowX < mapArray.length; rowX++){
+		for(var colY = 0; colY < mapArray[rowX].length; colY++){
+			if(mapArray[rowX][colY] == 1){
+					ctx.drawImage(iceBlockImage,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 2){
+					ctx.drawImage(snow1,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 3){
+					ctx.drawImage(snow2,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 4){
+					ctx.drawImage(snow3,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 5){
+					ctx.drawImage(dirt4,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 6){
+					ctx.drawImage(dirt5,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 7){
+					ctx.drawImage(dirt6,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 8){
+					ctx.drawImage(ds7,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 9){
+					ctx.drawImage(corner8,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 10){
+					ctx.drawImage(bottom9,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 11){
+					ctx.drawImage(corner10,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 12){
+					ctx.drawImage(ds11,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 13){
+					ctx.drawImage(edge12,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 14){
+					ctx.drawImage(edge13,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 15){
+					ctx.drawImage(float14,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 16){
+					ctx.drawImage(float15,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 17){
+					ctx.drawImage(float16,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 18){
+					ctx.drawImage(water17,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 19){
+					ctx.drawImage(water18,posX,posY,40,40);
+				}
+				if(mapArray[rowX][colY] == 20){
+					ctx.drawImage(frozen,posX,posY,40,40);
+				}
+				posX += 40;
 			}
-			if(mapArray[rowX][colY]==2){ //Draw blocks
-				ctx.drawImage(blockImage, posX, posY, 40, 40);
-			}
-			posX+=40; //Increments column position
+			posY += 40;
+			posX = 0;
 		}
-		posY+=40; //Increments row position
-		posX=0; //Resets column for the new row
-	}
-// -------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------
 }
+
 
  // ----------------------------Clear------------------------------------------------
 function clear() {
@@ -453,24 +527,24 @@ function play() {
 // -------------------------------------------------------------------------------------------
 
 function main() {
-	if (menuBol == true) {
+	if (menuBool == true) {
 		clear();
 		ctx.drawImage(menuImage, 0, 0, canvas.width, canvas.height);
 		drawMain();
 		
 		menuListener();
 		addMouseListener();
-	} else if (gameBol == true) { // X to pause
+	} else if (gameBool == true) { // X to pause
 		play();
 		gameListener();
-	} else if (pauseBol == true) {
-		ctx.font="40px Lato";
-		ctx.fillStyle="yellow";
+	} else if (pauseBool == true) {
+		ctx.font = "40px Lato";
+		ctx.fillStyle = "yellow";
 		ctx.fillText("Resume - Z",250,200);
 		ctx.fillText("Back to Menu - C",250,250);
 		
 		pauseListener();
-	} else if (leaderBol == true) {
+	} else if (leaderBool == true) {
 		clear();
 		ctx.drawImage(menuImage, 0, 0, canvas.width, canvas.height);
 		ctx.font="40px Lato";
@@ -489,39 +563,39 @@ function main() {
 // -----------------------------Key Listeners for Menu--------------------------------------------
 function menuListener() {
 	if (90 in keysDown) { // Z to play
-		menuBol = false;
-		gameBol = true;
+		menuBool = false;
+		gameBool = true;
 	}
 	if (86 in keysDown) { // V to leaderboard
-		menuBol = false;
-		leaderBol = true;
+		menuBool = false;
+		leaderBool = true;
 	}
 }
 
 function gameListener() {
 	if (88 in keysDown) { //X to pause
-		gameBol = false;
-		pauseBol = true;
+		gameBool = false;
+		pauseBool = true;
 		addMouseListener();
 	}
 }
 
 function pauseListener() {
 	if (90 in keysDown) { // Z to play
-		pauseBol = false;
-		gameBol = true;
+		pauseBool = false;
+		gameBool = true;
 	}
 	if (67 in keysDown) { // C to go back to menu
 		reset();
-		pauseBol = false;
-		menuBol = true;
+		pauseBool = false;
+		menuBool = true;
 	}
 }
 
 function leaderListener() {
 	if (67 in keysDown) { // C to go back to menu
-		leaderBol = false;
-		menuBol = true;
+		leaderBool = false;
+		menuBool = true;
 	}
 }
 
@@ -538,16 +612,6 @@ main();
 
 // -------------------------------------------------------------------------------------------
 
-var shipX = [0,0];
-var shipY = [0,0];
-var shipWidth = 35;
-var shipHeight = 40;
-
-var shipVisible = false;
-var shipSize = shipWidth;
-var shipRotate = 0;
-
-shipImage.src = "images/Jump0.png";
 instructImage.src = "Images/instructions.png";
 settingsImage.src = "Images/settings.png";
 creditsImage.src = "Images/leaderboard.png";
@@ -584,8 +648,8 @@ function checkClick(event){
 
 	if(mouseX > buttonX[0] && mouseX < buttonX[0] + buttonWidth[0]){
         if(mouseY > buttonY[0] && mouseY < buttonY[0] + buttonHeight[0]){
-			menuBol = false;
-			gameBol = true;
+			menuBool = false;
+			gameBool = true;
 			removeMouseListener();
         }
     }
