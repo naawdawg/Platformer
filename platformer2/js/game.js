@@ -21,6 +21,7 @@ var ctx = canvas.getContext("2d"); //Specifies Demension
 var egg = ""; //Easter Egg Variable
 var keysDown = {}; //Key listener, Determines if key is down
 var gameTime = 0;
+var iceCount = 0;
 
 //------------------------------Images------------------------------
 
@@ -282,9 +283,8 @@ function checkCollision() {
 				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 
 						&& sprite.x < posX + blockW - 5) { //up side block boundary 
 					//---------Ice Block Collision - Make a function for setTimeout---------
-					var curRow = rowX;
-					var curCol = colY;
-					setTimeout(function() { mapArray[curRow][curCol] = 0; }, 500);
+					setTimeout(function() { mapArray[rowX][colY] = 0; }, 500);
+					iceCount--;
 					//-----------------------------------------------------------------------
 					sprite.y = posY - spriteH;
 					jumpReady = true;
@@ -460,11 +460,13 @@ function render() {
 	// -------------------------------GRID------------------------------------------
 	var posX = 0; //Position x in the grid 
 	var posY = 0; //Position y in the grid
+	iceCount = 0;
 	// 2D Grid
 	for(var rowX = 0; rowX < mapArray.length; rowX++){
 		for(var colY = 0; colY < mapArray[rowX].length; colY++){
 			if(mapArray[rowX][colY] == 1){
 					ctx.drawImage(iceBlockImage,posX,posY,40,40);
+					iceCount++;
 				}
 				if(mapArray[rowX][colY] == 2){
 					ctx.drawImage(snow1,posX,posY,40,40);
@@ -520,8 +522,10 @@ function render() {
 				if(mapArray[rowX][colY] == 19){
 					ctx.drawImage(water18,posX,posY,40,40);
 				}
-				if(mapArray[rowX][colY] == 20){
+				if(mapArray[rowX][colY] == 20 && iceCount > 0){
 					ctx.drawImage(frozen,posX,posY,40,40);
+				} else if (mapArray[rowX][colY] == 20 && iceCount == 0) {
+					ctx.drawImage(finish,posX,posY,40,40);					
 				}
 				posX += 40;
 			}
