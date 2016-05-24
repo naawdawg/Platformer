@@ -9,7 +9,7 @@ Author: Samuel Dalusung
 
 canvas {
    width: 100%;
-   height: 90%;
+   height: 100%;
 }
 
 
@@ -36,7 +36,6 @@ body {
     -webkit-font-smoothing:antialiased;
     -webkit-text-size-adjust:100%;
 }
-
 
 p {
     font-size:20px;
@@ -185,7 +184,11 @@ ul li {
 }
 
 .div-container {
+	bottom:0;
+	left:0;
    height: 100%;
+   width: 100%;
+   position: relative;
 }
 
 .mobile-button {
@@ -194,8 +197,45 @@ ul li {
 }
 
 
+#Left {
+  bottom: 1%;
+  left: 2%;
+  position: absolute;
+  width: 10%;
+  height: 10%;
+}
 
+#Right {
+  bottom: 1%;
+  left: 15%;
+  position: absolute;
+  width: 10%;
+  height: 10%;
+}
 
+#Up {
+	bottom:1%;
+	right:2%;
+	position: absolute;
+	width: 10%;
+	height: 10%;
+}
+
+#Pause {
+	top: 1%;
+	left: 2%;
+	position: absolute;
+	width: 10%;
+	height: 10%;
+}
+
+#back {
+	top: 1%;
+	right: 2%;
+	position: absolute;
+	width: 10%;
+	height:10%;
+}
 
 /* BIG VIDEO BACKGROUND
 ================================================== */
