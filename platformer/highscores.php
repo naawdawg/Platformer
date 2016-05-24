@@ -1,4 +1,7 @@
 <?php include("header.php"); ?>
+<body style="height: 100%;">
+<?php include("navbar.php"); ?>
+   
 <div style="margin-top: 500px;">
 <p>PHP DATA</p>
 
