@@ -8,8 +8,10 @@ Author: Samuel Dalusung
 }
 
 canvas {
-   margin:100px;
+   width: 100%;
+   height: 90%;
 }
+
 
 /* BOOTSTRAP CHANGES 
 ================================================== */
@@ -153,6 +155,44 @@ ul li {
 .about_p {
    color: white;
 }
+
+
+/* MENU
+================================================== */
+
+#Main {
+   background-color: black;
+}
+#Level {
+   background-color: black;
+}
+#show_lv {
+   margin-top: 10px;
+}
+
+.button-margin-bottom {
+   margin-bottom: 20px;
+}
+
+.btn-primary {
+   font-size: 20px;
+   border-color: cornflowerblue;
+   border-radius: 5px;
+}
+
+.btn-danger {
+   border-radius: 5px;
+}
+
+.div-container {
+   height: 100%;
+}
+
+.mobile-button {
+   height: 100%;
+   width: 100%;
+}
+
 
 
 
