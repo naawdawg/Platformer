@@ -19,36 +19,62 @@
 <script>
 $(document).ready(function(){
    //DON"T WORK
-   $("#Right").click(
+   $("#Pause").click(
       function(){
-         sprite.x += sprite.speed;
-         if(animateTimer == null) {
-            animateTimer = setInterval('move();', 10);
-         } else {
-            clearInterval(animateTimer);
-            animateTimer = null;
-         }
+		if (gameBool == true) {
+			gameBool = false;
+			pauseBool = true;
+		} else {
+			gameBool = true;
+			pauseBool = false;
+		}
       }
    );
-   //DON"T WORK
-   $("#Left").click(
+   
+   //RIGHT DOWN CLICK
+   $("#Right").mousedown(
       function(){
-         sprite.x -= sprite.speed;
-         if(animateTimer == null) {
-            animateTimer = setInterval('move();', 10);
-         } else {
-            clearInterval(animateTimer);
-            animateTimer = null;
-         }
+		  moveRight = true;
       }
    );
+   
+    $("#Right").mouseup(
+      function(){
+		  moveRight = false;
+      }
+   );
+   
+   $("#Right").mouseleave(
+      function(){
+		  moveRight = false;
+      }
+   );
+   
+   //LEFT DOWN CLICK
+   $("#Left").mousedown(
+      function(){
+		moveLeft = true;
+      }
+   );
+   
+   $("#Left").mouseup(
+      function(){
+		moveLeft = false;
+      }
+   );
+   
+   $("#Left").mouseleave(
+      function(){
+		  moveLeft = false;
+      }
+   );
+   
    $("#Up").click(
       function(){
          if(jumpAvailable) {
             jumping = true;
             jumpVelocity = jumpMax;
          }
-
          if(animateTimer == null) {
             move();
          } else {
