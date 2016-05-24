@@ -1,4 +1,7 @@
 <?php include("header.php"); ?>
+<body style="height: 100%;">
+<?php include("navbar.php"); ?>
+   
    <audio id="alarm">
          <source src="./sounds/noot.mp3">
    </audio>

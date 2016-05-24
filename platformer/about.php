@@ -1,4 +1,7 @@
 <?php include("header.php"); ?>
+<body style="height: 100%;">
+<?php include("navbar.php"); ?>
+
 <section class="big-background">
    <?php include("background2.php"); ?>
    <div class="big-background-container">
