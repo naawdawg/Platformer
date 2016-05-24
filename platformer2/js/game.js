@@ -255,67 +255,83 @@ function move() {
 };
 
 function checkCollision() {
+	// ========================FIXED - MAKE THIS A FUNCTION - COLLISION/JUMPER===========================================
+	var jumpReady = false; //true if on a block, needs to reinitialize to false every time, DONT MOVE!.
 	var posX = 0; //Position x in the grid 
 	var posY = 0; //Position y in the grid
-	// 2D Grid
+	// Scan 2D Grid
 	for(var rowX = 0; rowX < mapArray.length; rowX++){
-		for(var colY = 0; colY < mapArray[rowX].length; colY++) {
-			if(mapArray[rowX][colY] == 1) {
-				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 && sprite.x < posX + blockW - 5) { //up side block
-					sprite.y = posY - spriteH;
+		for(var colY = 0; colY < mapArray[rowX].length; colY++){
+			if(mapArray[rowX][colY] == 1){
+				// The +3/-3 is to take account of movement
+				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 
+						&& sprite.y < posY + spriteH - 3) { //left side block boundary
+					sprite.x = posX - spriteW;
+				}
+				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 
+						&& sprite.y < posY + spriteH - 3) { //right side block boundary
+					sprite.x = posX + blockW;
+				}
+				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 
+						&& sprite.x < posX + blockW - 3) { //down side block boundary
+					sprite.y = posY + spriteH + 3;
+				}
+				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 
+						&& sprite.x < posX + blockW - 5) { //up side block boundary 
+					//---------Ice Block Collision - Make a function for setTimeout---------
 					var curRow = rowX;
 					var curCol = colY;
 					setTimeout(function() { mapArray[curRow][curCol] = 0; }, 500);
-				}
-				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) { //left side block
-					sprite.x = posX - spriteW;
-				}
-				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) {
-					sprite.x = posX + blockW;
-				}
-				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3) {
-					sprite.y = posY + spriteH + 3;
-				}
-				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3 
-					&& sprite.y == posY - spriteH) {
+					//-----------------------------------------------------------------------
+					sprite.y = posY - spriteH;
+					jumpReady = true;
 					break;
 				} else {
-					jumpAvailable = false;
+					jumpReady = false;
 				}
 			}
-			for (var i = 2; i < 18; i++) {
-				if(mapArray[rowX][colY] == i) {
-					if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 && sprite.x < posX + blockW - 5) { //up side block
-						sprite.y = posY - spriteH;
-					}
-					if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) { //left side block
-						sprite.x = posX - spriteW;
-					}
-					if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 && sprite.y < posY + spriteH - 3) {
-						sprite.x = posX + blockW;
-					}
-					if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3) {
-						sprite.y = posY + spriteH + 3;
-					}
-					if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 3 && sprite.x < posX + blockW - 3 
-						&& sprite.y == posY - spriteH) {
-						break;
-					} else {
-						jumpAvailable = false;
-					}
+			if(mapArray[rowX][colY] == 2 || mapArray[rowX][colY] == 3 || mapArray[rowX][colY] == 4 || mapArray[rowX][colY] == 5
+				|| mapArray[rowX][colY] == 6 || mapArray[rowX][colY] == 7 || mapArray[rowX][colY] == 8
+				|| mapArray[rowX][colY] == 9 || mapArray[rowX][colY] == 10 || mapArray[rowX][colY] == 11
+				|| mapArray[rowX][colY] == 12 || mapArray[rowX][colY] == 13 || mapArray[rowX][colY] == 14
+				|| mapArray[rowX][colY] == 15 || mapArray[rowX][colY] == 16 || mapArray[rowX][colY] == 17){
+				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 
+						&& sprite.y < posY + spriteH - 3) { //left side block boundary
+					sprite.x = posX - spriteW;
+				}
+				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 
+						&& sprite.y < posY + spriteH - 3) { //right side block boundary
+					sprite.x = posX + blockW;
+				}
+				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 
+						&& sprite.x < posX + blockW - 3) { //down side block boundary
+					sprite.y = posY + spriteH + 3;
+				}
+				if (sprite.y > posY - spriteH && sprite.y < posY && sprite.x > posX - spriteW + 5 
+						&& sprite.x < posX + blockW - 5) { //up side block boundary 
+					sprite.y = posY - spriteH;
+					jumpReady = true;
+					break;
+				} else {
+					jumpReady = false;
 				}
 			}
-			posX += 40; //Increments column position
+			posX+=40; //Increments column position
 		}
-		if (sprite.y == posY - spriteH) {
-			jumpAvailable = true;
+		posY+=40; //Increments row position
+		posX=0; //Resets column for the new row	
+		if(jumpReady) {
 			break;
 		} else {
-			jumpAvailable = false;
+			jumpReady = false;
 		}
-		posY += 40; //Increments row position
-		posX = 0; //Resets column for the new row
 	}
+	if (jumpReady) {
+		jumpAvailable = true;
+	} else {
+		jumpAvailable = false;
+	}
+	// ========================================================================================================
 }
 
 function iceDestruction(iceBlock) {
