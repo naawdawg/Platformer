@@ -73,6 +73,9 @@ var jumping = false; //In Jump
 var jumpMax = 4; //Maximum jump Y-axis
 var jumpVelocity = 0; //Jump Velocity
 
+var moveRight = false;
+var moveLeft = false;
+
 var instructImage = new Image();
 var settingsImage = new Image();
 var creditsImage = new Image();
@@ -203,7 +206,7 @@ function reset() {
 //Sprite Movement Animation function
 function move() {
     var ground = true;
-	if(39 in keysDown) {//right    
+	if(39 in keysDown || moveRight) {//right    
         facing = true;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
@@ -213,7 +216,7 @@ function move() {
 		} else {
             spriteImage.src = "images/Jump2.png";
         }
-	} else if(37 in keysDown) {//left   
+	} else if(37 in keysDown || moveLeft) {//left   
         facing = false;
 		if(jumpAvailable) {
 			imageNum = (imageNum + 1) % 4;
@@ -334,6 +337,7 @@ function checkCollision() {
 	// ========================================================================================================
 }
 
+
 function iceDestruction(iceBlock) {
 
 }
@@ -401,7 +405,7 @@ function update(modifier) {
 		}
 	}
 
-	if (37 in keysDown) { // Player holding left
+if (37 in keysDown || moveLeft) { // Player holding left
 		sprite.x -= sprite.speed * modifier;
 		if(animateTimer == null) {
 			animateTimer = setInterval('move();', 10);
@@ -411,7 +415,7 @@ function update(modifier) {
 		}
 	}
 
-	if (39 in keysDown) { // Player holding right
+	if (39 in keysDown || moveRight) { // Player holding right
 		sprite.x += sprite.speed * modifier;
 		if(animateTimer == null) {
 			animateTimer = setInterval('move();', 10);
