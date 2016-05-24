@@ -15,6 +15,11 @@ var leaderBool = false;
 var settingBool = false;
 var pauseBool = false;
 
+// FOR TESTING WITH index.html
+// var canvas = document.createElement("canvas");
+
+
+
 var canvas = document.getElementById("canvas"); //Used to get the element type 'Canvas'
 var div = document.getElementById("Game");
 var ctx = canvas.getContext("2d"); //Specifies Demension
@@ -49,6 +54,17 @@ var water18 = new Image(); //Water Block
 var frozen = new Image(); //Frozen Finish Sign
 var finish = new Image(); //Finish Sign
 
+var ice0 = new Image();
+var ice1 = new Image();
+var ice2 = new Image();
+var ice3 = new Image();
+var ice4 = new Image();
+var ice5 = new Image();
+var ice6 = new Image();
+var ice7 = new Image();
+var ice8 = new Image();
+var ice9 = new Image();
+
 var menuImage = new Image(); //Background image
 
 var blockW = 40;
@@ -73,6 +89,12 @@ var jumpAvailable = false; //Boolean, If sprite is on ground
 var jumping = false; //In Jump
 var jumpMax = 4; //Maximum jump Y-axis
 var jumpVelocity = 0; //Jump Velocity
+
+var velocityY = 0;
+var velocityX = 0;
+var maxVelocityY = 8;
+var maxVelocityX = 4.4;
+var friction = 0.85;
 
 var moveRight = false;
 var moveLeft = false;
@@ -100,6 +122,12 @@ playImage.src = "images/play.png";
 canvas.width = 720;
 canvas.height = 480;
 div.appendChild(canvas);
+
+
+//FOR TESTING WITH index.html
+//document.body.appendChild(canvas);
+
+
 
 //------------------------Timer----------------------------
 setInterval(function() {
@@ -131,6 +159,17 @@ water17.src = 'images/17.png';
 water18.src = 'images/18.png';
 frozen.src = 'images/Crystal.png';
 finish.src = 'images/Sign.png';
+
+ice0 = 'images/iceBoxDestruction/0000.png';
+ice1 = 'images/iceBoxDestruction/0001.png';
+ice2 = 'images/iceBoxDestruction/0002.png';
+ice3 = 'images/iceBoxDestruction/0003.png';
+ice4 = 'images/iceBoxDestruction/0004.png';
+ice5 = 'images/iceBoxDestruction/0005.png';
+ice6 = 'images/iceBoxDestruction/0006.png';
+ice7 = 'images/iceBoxDestruction/0007.png';
+ice8 = 'images/iceBoxDestruction/0008.png';
+ice9 = 'images/iceBoxDestruction/0009.png';
 	
 bgImage.src = "images/background.jpg";
 menuImage.src = "images/menu.jpg";
@@ -163,6 +202,16 @@ finish.onload = function () {}
 
 //Displays ice blocks when image is ready
 iceBlockImage.onload = function () {}
+ice0.onload = function () {}
+ice1.onload = function () {}
+ice2.onload = function () {}
+ice3.onload = function () {}
+ice4.onload = function () {}
+ice5.onload = function () {}
+ice6.onload = function () {}
+ice7.onload = function () {}
+ice8.onload = function () {}
+ice9.onload = function () {}
 
 //Sprite Animation Variables and Movement
 spriteImage.onload = function () {}
@@ -267,7 +316,7 @@ function checkCollision() {
 	for(var rowX = 0; rowX < mapArray.length; rowX++){
 		for(var colY = 0; colY < mapArray[rowX].length; colY++){
 			if(mapArray[rowX][colY] == 1){
-				// The +3/-3 is to take account of movement
+				// The +3/-3 is to take account of movement & gravity
 				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 
 						&& sprite.y < posY + spriteH - 3) { //left side block boundary
 					sprite.x = posX - spriteW;
@@ -319,10 +368,10 @@ function checkCollision() {
 					jumpReady = false;
 				}
 			}
-			posX+=40; //Increments column position
+			posX += 40; //Increments column position
 		}
-		posY+=40; //Increments row position
-		posX=0; //Resets column for the new row	
+		posY += 40; //Increments row position
+		posX = 0; //Resets column for the new row	
 		if(jumpReady) {
 			break;
 		} else {
@@ -337,8 +386,12 @@ function checkCollision() {
 	// ========================================================================================================
 }
 
+//
+function destroyIce(gridLocation) {
+	gridLocation = 0;
+}
 
-function iceDestruction(iceBlock) {
+function iceAnimation(gridLocation) {
 
 }
 
@@ -375,7 +428,7 @@ function update(modifier) {
 	if (38 in keysDown) { // Player holding up
 		if(jumpAvailable) {
 			jumping = true;
-			jumpVelocity = jumpMax;
+			jumpVelocity = maxVelocityY;
 		}
 		
 		if(animateTimer == null) {
@@ -387,13 +440,11 @@ function update(modifier) {
 	}
 	
 	if(jumping) { //if 38 is pressed when jump is available 
-		sprite.y -= jumpVelocity; 
-		jumpVelocity -= 0.1; //Jump physics
+		velocityY = -jumpVelocity;
+		jumpVelocity -= 0.14; //Jump physics
 		if(jumpVelocity <= 0) {
 			jumping = false;
 		}
-	} else { // Apply gravity
-		sprite.y += gravity;
 	}
 	
 	if (40 in keysDown) { // Player holding down
@@ -405,8 +456,8 @@ function update(modifier) {
 		}
 	}
 
-if (37 in keysDown || moveLeft) { // Player holding left
-		sprite.x -= sprite.speed * modifier;
+	if (37 in keysDown || moveLeft) { // Player holding left
+		velocityX -= sprite.speed * modifier;
 		if(animateTimer == null) {
 			animateTimer = setInterval('move();', 10);
 		} else {
@@ -416,7 +467,7 @@ if (37 in keysDown || moveLeft) { // Player holding left
 	}
 
 	if (39 in keysDown || moveRight) { // Player holding right
-		sprite.x += sprite.speed * modifier;
+		velocityX += sprite.speed * modifier;
 		if(animateTimer == null) {
 			animateTimer = setInterval('move();', 10);
 		} else {
@@ -425,6 +476,21 @@ if (37 in keysDown || moveLeft) { // Player holding left
 		}
 	}
 	
+	sprite.y += gravity;
+	velocityX *= friction;
+
+	if (velocityY > maxVelocityY)
+		velocityY = maxVelocityY;
+	if (velocityY < -maxVelocityY)
+		velocityY = -maxVelocityY;
+	if (velocityX > maxVelocityX)
+		velocityX = maxVelocityX;
+	if (velocityX < -(maxVelocityX))
+		velocityX = -maxVelocityX;
+
+	sprite.x += velocityX;
+	sprite.y += velocityY;
+
 	// left boundary
 	if(sprite.x < 0) {
 		sprite.x = 0;
@@ -443,6 +509,85 @@ if (37 in keysDown || moveLeft) { // Player holding left
 };
 window.onkeydown = move;
 
+// -------------------------------GRID------------------------------------------
+function checkGrid() {
+	var posX = 0; //Position x in the grid 
+	var posY = 0; //Position y in the grid
+	iceCount = 0;
+	// 2D Grid
+	for(var rowX = 0; rowX < mapArray.length; rowX++){
+		for(var colY = 0; colY < mapArray[rowX].length; colY++){
+			if(mapArray[rowX][colY] == 1){
+					ctx.drawImage(iceBlockImage,posX,posY,40,40);
+					iceCount++;
+			}
+			if(mapArray[rowX][colY] == 2){
+				ctx.drawImage(snow1,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 3){
+				ctx.drawImage(snow2,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 4){
+				ctx.drawImage(snow3,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 5){
+				ctx.drawImage(dirt4,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 6){
+				ctx.drawImage(dirt5,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 7){
+				ctx.drawImage(dirt6,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 8){
+				ctx.drawImage(ds7,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 9){
+				ctx.drawImage(corner8,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 10){
+				ctx.drawImage(bottom9,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 11){
+				ctx.drawImage(corner10,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 12){
+				ctx.drawImage(ds11,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 13){
+				ctx.drawImage(edge12,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 14){
+				ctx.drawImage(edge13,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 15){
+				ctx.drawImage(float14,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 16){
+				ctx.drawImage(float15,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 17){
+				ctx.drawImage(float16,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 18){
+				ctx.drawImage(water17,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 19){
+				ctx.drawImage(water18,posX,posY,40,40);
+			}
+			if(mapArray[rowX][colY] == 20 && iceCount > 0){
+				ctx.drawImage(frozen,posX,posY,40,40);
+			} else if (mapArray[rowX][colY] == 20 && iceCount == 0) {
+				ctx.drawImage(finish,posX,posY,40,40);					
+			}
+			posX += 40;
+		}
+		posY += 40;
+		posX = 0;
+	}
+}
+// -------------------------------------------------------------------------------
+
 //Renders all images onto screen
 function render() {
   
@@ -456,83 +601,8 @@ function render() {
 	ctx.font = "40px Lato";
 	ctx.fillStyle = "green";
 	ctx.fillText(gameTime,40,70);
-	
-	// -------------------------------GRID------------------------------------------
-	var posX = 0; //Position x in the grid 
-	var posY = 0; //Position y in the grid
-	iceCount = 0;
-	// 2D Grid
-	for(var rowX = 0; rowX < mapArray.length; rowX++){
-		for(var colY = 0; colY < mapArray[rowX].length; colY++){
-			if(mapArray[rowX][colY] == 1){
-					ctx.drawImage(iceBlockImage,posX,posY,40,40);
-					iceCount++;
-				}
-				if(mapArray[rowX][colY] == 2){
-					ctx.drawImage(snow1,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 3){
-					ctx.drawImage(snow2,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 4){
-					ctx.drawImage(snow3,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 5){
-					ctx.drawImage(dirt4,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 6){
-					ctx.drawImage(dirt5,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 7){
-					ctx.drawImage(dirt6,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 8){
-					ctx.drawImage(ds7,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 9){
-					ctx.drawImage(corner8,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 10){
-					ctx.drawImage(bottom9,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 11){
-					ctx.drawImage(corner10,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 12){
-					ctx.drawImage(ds11,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 13){
-					ctx.drawImage(edge12,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 14){
-					ctx.drawImage(edge13,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 15){
-					ctx.drawImage(float14,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 16){
-					ctx.drawImage(float15,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 17){
-					ctx.drawImage(float16,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 18){
-					ctx.drawImage(water17,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 19){
-					ctx.drawImage(water18,posX,posY,40,40);
-				}
-				if(mapArray[rowX][colY] == 20 && iceCount > 0){
-					ctx.drawImage(frozen,posX,posY,40,40);
-				} else if (mapArray[rowX][colY] == 20 && iceCount == 0) {
-					ctx.drawImage(finish,posX,posY,40,40);					
-				}
-				posX += 40;
-			}
-			posY += 40;
-			posX = 0;
-		}
-	// -------------------------------------------------------------------------------
+
+	checkGrid();
 }
 
 
@@ -572,8 +642,8 @@ function main() {
 	} else if (leaderBool == true) {
 		clear();
 		ctx.drawImage(menuImage, 0, 0, canvas.width, canvas.height);
-		ctx.font="40px Lato";
-		ctx.fillStyle="yellow";
+		ctx.font = "40px Lato";
+		ctx.fillStyle = "yellow";
 		ctx.fillText("LEADERBOARD",250,90);
 		
 		ctx.fillText("Back to Menu - C",250,350);
@@ -634,6 +704,7 @@ requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnim
 var last = Date.now();
 reset();
 main();
+focus();
 
 // -------------------------------------------------------------------------------------------
 
