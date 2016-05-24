@@ -204,7 +204,7 @@ ice9.onload = function () {}
 spriteImage.onload = function () {}
 spriteImage.src = "images/Walk0.png";
 sprite = {
-	speed: 150 // movement in pixels per second
+	speed: 25 // movement in pixels per second
 };
 
 //------------------------Key Handlers----------------------------
@@ -313,15 +313,15 @@ function checkCollision() {
 		for(var colY = 0; colY < mapArray[rowX].length; colY++){
 			if(mapArray[rowX][colY] == 1){
 				// The +3/-3 is to take account of movement
-				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //left side block boundary
+				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + gravity 
+						&& sprite.y < posY + spriteH - gravity) { //left side block boundary
 					sprite.x = posX - spriteW;
 				}
-				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //right side block boundary
+				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + gravity 
+						&& sprite.y < posY + spriteH - gravity) { //right side block boundary
 					sprite.x = posX + blockW;
 				}
-				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 
+				if (sprite.y < posY + spriteH + gravity && sprite.y > posY && sprite.x > posX - spriteW + 3 
 						&& sprite.x < posX + blockW - 3) { //down side block boundary
 					sprite.y = posY + spriteH + 3;
 				}
@@ -345,12 +345,12 @@ function checkCollision() {
 				|| mapArray[rowX][colY] == 9 || mapArray[rowX][colY] == 10 || mapArray[rowX][colY] == 11
 				|| mapArray[rowX][colY] == 12 || mapArray[rowX][colY] == 13 || mapArray[rowX][colY] == 14
 				|| mapArray[rowX][colY] == 15 || mapArray[rowX][colY] == 16 || mapArray[rowX][colY] == 17){
-				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //left side block boundary
+				if (sprite.x > posX - spriteW && sprite.x < posX && sprite.y > posY - spriteH + gravity 
+						&& sprite.y < posY + spriteH - gravity) { //left side block boundary
 					sprite.x = posX - spriteW;
 				}
-				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + 3 
-						&& sprite.y < posY + spriteH - 3) { //right side block boundary
+				if (sprite.x < posX + blockW && sprite.x > posX && sprite.y > posY - spriteH + gravity 
+						&& sprite.y < posY + spriteH - gravity) { //right side block boundary
 					sprite.x = posX + blockW;
 				}
 				if (sprite.y < posY + spriteH + 3 && sprite.y > posY && sprite.x > posX - spriteW + 3 

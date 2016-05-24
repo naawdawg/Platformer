@@ -1,6 +1,5 @@
 <?php include("header.php"); ?>
-<body style="height: 100%; overflow: hidden">
-   
+<body style="height: 100%; overflow: hidden"> 
    
 <?php include("menu/main.php"); ?>
 <?php include("menu/levelselect.php"); ?>
@@ -17,19 +16,15 @@ $(document).ready(function(){
    $("#Leader").hide();
    $("#Level").hide();
    //REMOVE ACTION LISTENERS HERE
-
-   $("#show_g").click(function(){
-      $("#Main").hide();
-      $("#Game").show();
-      
-      //ADD ACTION LISTENERS HERE
-      
-   });
+   
    $("#show_lv").click(function(){
       $("#Main").hide();
       $("#Level").show();
    });
+   
    $("#show_g").click(function(){
+	  //ADD ACTION LISTENERS HERE
+	  reset();
       $("#Level").hide();
       $("#Game").show();
    });
