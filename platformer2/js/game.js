@@ -2,7 +2,6 @@
 Platformer
              
 Description:
-
 Author: Group #24
 */
 
@@ -207,6 +206,25 @@ spriteImage.src = "images/Walk0.png";
 sprite = {
 	speed: 25 // movement in pixels per second
 };
+
+//------------------------Sound Effects----------------------------
+
+var soundTimer = null;
+
+var iceBreakSound = new Howl({
+  urls: ['./sounds/iceBreaking.mp3'],
+  loop: false
+});
+
+var walkSound = new Howl({
+  urls: ['./sounds/tick.mp3'],
+  loop: false
+});
+
+var jumpSound = new Howl({
+	urls: ['./sounds/woosh.mp3'],
+	loop: false
+});
 
 //------------------------Key Handlers----------------------------
 
@@ -700,6 +718,7 @@ function update(modifier) {
 		if(jumpAvailable) {
 			jumping = true;
 			jumpVelocity = maxVelocityY;
+			jumpSound.play();
 		}
 		
 		if(animateTimer == null) {
@@ -731,6 +750,7 @@ function update(modifier) {
 		velocityX -= sprite.speed * modifier;
 		if(animateTimer == null) {
 			animateTimer = setInterval('move();', 10);
+			walkSound.play();
 		} else {
 			clearInterval(animateTimer);
 			animateTimer = null;
@@ -741,6 +761,7 @@ function update(modifier) {
 		velocityX += sprite.speed * modifier;
 		if(animateTimer == null) {
 			animateTimer = setInterval('move();', 10);
+			walkSound.play();
 		} else {
 			clearInterval(animateTimer);
 			animateTimer = null;
@@ -985,4 +1006,3 @@ function drawMain(){
     ctx.drawImage(settingsImage, buttonX[2], buttonY[2], buttonWidth[2], buttonHeight[2]);
     ctx.drawImage(creditsImage, buttonX[3], buttonY[3], buttonWidth[3], buttonHeight[3]);
 }
-
