@@ -175,6 +175,12 @@ ul li {
    margin-top: 10px;
 }
 
+#Instruction {
+   background-color: black;
+   height: 100%;
+   width: 100%;
+}
+
 .button-margin-bottom {
    margin-bottom: 20px;
 }
