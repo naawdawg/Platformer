@@ -2,18 +2,17 @@
 
 <canvas id="canvas"></canvas>
 <script src = "js/game.js"></script>
+	<?php include("menu/pause.php"); ?>
 	<button class="bottomLeft" id="Left">LEFT</button>
-	<button id="Right">RIGHT</button>
+	<button id="Right" class="btn-danger">RIGHT</button>
 	<button id="Up">SPACE</button>
 	<button id="Pause">PAUSE</button>
 	<button id="back" class="show_b">Back</button>
-   
    
 </div>
 
 <script>
 $(document).ready(function(){
-   
    //DON"T WORK
    $("#Pause").click(
       function(){
@@ -26,6 +25,7 @@ $(document).ready(function(){
 		}
       }
    );
+
    
    //RIGHT DOWN CLICK
    $("#Right").mousedown(
