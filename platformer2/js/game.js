@@ -217,7 +217,7 @@ var iceBreakSound = new Howl({
 });
 
 var walkSound = new Howl({
-  urls: ['./sounds/tick.mp3'],
+  urls: ['./sounds/walk.mp3'],
   loop: false
 });
 
