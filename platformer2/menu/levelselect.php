@@ -3,7 +3,7 @@
    <div class="col-xs-12">
       <div class="col-sm-6">
          <div class="col-xs-3"><button class="btn-primary" id="show_g">1</button></div>
-         <div class="col-xs-3"><button class="btn-danger" id="show_lvl2">2</button></div>
+         <div class="col-xs-3"><button class="btn-danger">2</button></div>
          <div class="col-xs-3"><button class="btn-danger">3</button></div>
          <div class="col-xs-3"><button class="btn-danger">4</button></div>
       </div>
