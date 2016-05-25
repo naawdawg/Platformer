@@ -7,10 +7,13 @@
 	<button id="Up">SPACE</button>
 	<button id="Pause">PAUSE</button>
 	<button id="back" class="show_b">Back</button>
+   
+   
 </div>
 
 <script>
 $(document).ready(function(){
+   
    //DON"T WORK
    $("#Pause").click(
       function(){
@@ -66,8 +69,9 @@ $(document).ready(function(){
       function(){
          if(jumpAvailable) {
             jumping = true;
-            jumpVelocity = jumpMax;
+            jumpVelocity = maxVelocityY;
          }
+
          if(animateTimer == null) {
             move();
          } else {

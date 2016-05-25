@@ -217,6 +217,18 @@ addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
 }, false);
 
+
+
+function removeMouseListener() {
+   ctx.canvas.removeEventListener("mousemove", checkPos);
+   ctx.canvas.removeEventListener("mouseup", checkClick);
+}
+
+function addMouseListener() {
+   ctx.canvas.addEventListener("mousemove", checkPos);
+   ctx.canvas.addEventListener("mouseup", checkClick);
+}
+
 //----------------------------Functions--------------------------------
 
 //Reset the game when the player falls off-screen
@@ -702,16 +714,6 @@ instructImage.src = "Images/instructions.png";
 settingsImage.src = "Images/settings.png";
 creditsImage.src = "Images/leaderboard.png";
 
-function removeMouseListener() {
-   ctx.canvas.removeEventListener("mousemove", checkPos);
-   ctx.canvas.removeEventListener("mouseup", checkClick);
-}
-
-function addMouseListener() {
-   ctx.canvas.addEventListener("mousemove", checkPos);
-   ctx.canvas.addEventListener("mouseup", checkClick);
-}
-
 function drawMain(){
 	ctx.drawImage(bgImage, 0, 0, 780, 480);
 	ctx.drawImage(logoImage, 225, 40, 330, 100);
@@ -721,22 +723,3 @@ function drawMain(){
     ctx.drawImage(creditsImage, buttonX[3], buttonY[3], buttonWidth[3], buttonHeight[3]);
 }
 
-function checkPos(event){
-	var mouseX = event.clientX - ctx.canvas.offsetLeft;
-    var mouseY = event.clientY - ctx.canvas.offsetTop;
-    var status = document.getElementById('status');
-    status.innerHTML = mouseX+" | "+mouseY;
-}
-
-function checkClick(event){
-	var mouseX = event.clientX - ctx.canvas.offsetLeft;
-    var mouseY = event.clientY - ctx.canvas.offsetTop;
-
-	if(mouseX > buttonX[0] && mouseX < buttonX[0] + buttonWidth[0]){
-        if(mouseY > buttonY[0] && mouseY < buttonY[0] + buttonHeight[0]){
-			menuBool = false;
-			gameBool = true;
-			removeMouseListener();
-        }
-    }
-}
