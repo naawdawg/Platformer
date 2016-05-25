@@ -28,7 +28,7 @@ $(document).ready(function(){
    //BUTTON LEVEL SELECT FOR LEVEL 1
    $("#show_g").click(function(){
 	  //ADD ACTION LISTENERS HERE
-	   reset(1);
+	   reset();
       $("#Level").hide();
       $("#Game").show();
    }); 
