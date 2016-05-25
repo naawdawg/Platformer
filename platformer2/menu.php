@@ -15,19 +15,24 @@ $(document).ready(function(){
    $("#Settings").hide();
    $("#Leader").hide();
    $("#Level").hide();
+   $("#Board").hide();
    //REMOVE ACTION LISTENERS HERE
+   
    
    $("#show_lv").click(function(){
       $("#Main").hide();
       $("#Level").show();
    });
    
+   
+   //BUTTON LEVEL SELECT FOR LEVEL 1
    $("#show_g").click(function(){
 	  //ADD ACTION LISTENERS HERE
-	  reset();
+	   reset(1);
       $("#Level").hide();
       $("#Game").show();
-   });
+   }); 
+   
    $("#show_s").click(function(){
       $("#Main").hide();
       $("#Settings").show();
@@ -47,6 +52,7 @@ $(document).ready(function(){
       $("#Instruction").hide();
       $("#Settings").hide();
       $("#Leader").hide();
+      $("#Level").hide();
    });
 });
 </script>

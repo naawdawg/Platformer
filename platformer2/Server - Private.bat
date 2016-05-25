@@ -1,2 +1,2 @@
 ECHO OFF
-..\php.exe -S localhost:8888
+C:\Users\Organized\Documents\Personal\Websites\php\php.exe -S localhost:8888

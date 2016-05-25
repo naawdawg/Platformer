@@ -162,9 +162,15 @@ ul li {
 #Main {
    background-color: black;
 }
+
 #Level {
    background-color: black;
 }
+
+#Leader {
+   background-color: black;
+}
+
 #show_lv {
    margin-top: 10px;
 }
@@ -236,6 +242,43 @@ ul li {
 	width: 10%;
 	height:10%;
 }
+
+/* LEADER BOARDS
+================================================= */
+
+#leader_header {
+   margin-top: 10px;
+   margin-bottom: 10px;
+   color: white;
+}
+
+#leader_subheader {
+   font-size: 15px;
+   color: white;
+   margin: 0px;
+   margin-top: 5px;
+}
+
+.scroll {
+   max-height: 230px;
+   max-width: 200px;
+   height: 100%;
+   width: 100%;
+   overflow: scroll;
+}
+
+.btn-lvl {
+   width: 70px;
+   height: 65px;
+   font-size: 40px;
+   margin: 30px;
+}
+
+#Board {
+   color: white;
+}
+
+
 
 /* BIG VIDEO BACKGROUND
 ================================================== */
@@ -470,9 +513,27 @@ a.footer-section-btn {
 /* MEDIA QUERIES
 ================================================== */
 
-@media screen and (max-width: 768px) {
+/* IPAD
+======================*/
+@media screen and (max-width: 1024px) {
+
+}
+
+/* MOBILE
+======================*/
+@media screen and (max-width: 760px) {
    .about-section-title {
-       line-height:1;
+      line-height:1;
+   }
+   .btn-lvl {
+      width: 40px;
+      height: 40px;
+      font-size: 15px;
+      margin: 5px 10px;
+   }
+   #leader_header {
+      margin-top: 2px;
+      margin-bottom: 2px;
    }
 }
 
@@ -487,7 +548,6 @@ a.footer-section-btn {
    .small-background-title {
        line-height:1;
    }
-
    .player{ 
       display: none;
    }  /*-> If you want to remove the video bg on a specific viewport w/o plugin*/
@@ -503,6 +563,7 @@ a.footer-section-btn {
    .small-background-title {
        font-size:30px;
    }
+
 }
 
 
